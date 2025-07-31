@@ -41,7 +41,7 @@ position = Vector2(-69, 74)
 [node name="ActivableDoor" parent="." node_paths=PackedStringArray("energySources") instance=ExtResource("2_74lek")]
 position = Vector2(152, 88)
 activatedPos = Vector2(152, 136)
-energySources = [NodePath("../PressurePlate"), NodePath("../PressurePlate2")]
+energySources = []
 
 [node name="PressurePlate" parent="." instance=ExtResource("3_iyx0m")]
 position = Vector2(12, 112)

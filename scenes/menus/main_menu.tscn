@@ -1,7 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://7b3x53jw1py0"]
+[gd_scene load_steps=9 format=4 uid="uid://7b3x53jw1py0"]
 
 [ext_resource type="Script" uid="uid://y1ge41nxgf6" path="res://scripts/menus/main_menu.gd" id="1_xqga4"]
+[ext_resource type="Texture2D" uid="uid://bervjb804eiwj" path="res://assets/tile.png" id="2_2o76q"]
 [ext_resource type="Theme" uid="uid://cj661i3baqy8q" path="res://themes/level_button.tres" id="2_ovrgc"]
+[ext_resource type="PackedScene" uid="uid://cq4w7f66npi7m" path="res://scenes/objects/activable_door.tscn" id="3_6bivr"]
+[ext_resource type="PackedScene" uid="uid://cd75a7g3efvbu" path="res://scenes/objects/pressure_plate.tscn" id="3_ng0o5"]
+[ext_resource type="PackedScene" uid="uid://rqwsubkt2nyi" path="res://scenes/objects/level_orb.tscn" id="4_imvie"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6bivr"]
+texture = ExtResource("2_2o76q")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_imvie"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_6bivr")
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -21,6 +34,27 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.65098, 0.603922, 0.611765, 1)
 
+[node name="LevelBackgound" type="Node2D" parent="."]
+scale = Vector2(4, 4)
+
+[node name="SpawnPos" type="Node2D" parent="LevelBackgound"]
+position = Vector2(34.5, 216.5)
+
+[node name="TileMap" type="TileMapLayer" parent="LevelBackgound"]
+tile_map_data = PackedByteArray("AAAAABAAAAAAAAAAAAABABAAAAAAAAAAAAACABAAAAAAAAAAAAADABAAAAAAAAAAAAAEABAAAAAAAAAAAAAFABAAAAAAAAAAAAAGABAAAAAAAAAAAAAHABAAAAAAAAAAAAAIABAAAAAAAAAAAAAJABAAAAAAAAAAAAAKABAAAAAAAAAAAAALABAAAAAAAAAAAAAMABAAAAAAAAAAAAANABAAAAAAAAAAAAAOABAAAAAAAAAAAAAPABAAAAAAAAAAAAAQABAAAAAAAAAAAAARABAAAAAAAAAAAAASABAAAAAAAAAAAAATABAAAAAAAAAAAAAUABAAAAAAAAAAAAAVABAAAAAAAAAAAAAWABAAAAAAAAAAAAAXABAAAAAAAAAAAAAYABAAAAAAAAAAAAAZABAAAAAAAAAAAAAaABAAAAAAAAAAAAAbABAAAAAAAAAAAAAcABAAAAAAAAAAAAAdABAAAAAAAAAAAAAcAAwAAAAAAAAAAAAdAAwAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_imvie")
+
+[node name="PressurePlate" parent="LevelBackgound" instance=ExtResource("3_ng0o5")]
+position = Vector2(415.5, 256)
+
+[node name="ActivableDoor" parent="LevelBackgound" node_paths=PackedStringArray("energySources") instance=ExtResource("3_6bivr")]
+position = Vector2(456, 232)
+activatedPos = Vector2(1824, 736)
+energySources = [NodePath("../PressurePlate")]
+
+[node name="LevelOrb" parent="LevelBackgound" instance=ExtResource("4_imvie")]
+position = Vector2(472, 249)
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -30,18 +64,18 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="MainTitle" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("2_ovrgc")
 theme_override_constants/outline_size = 24
 theme_override_font_sizes/font_size = 128
-text = "GAME NAME"
+text = "LOOP YOURSELF"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
-theme_override_constants/separation = 80
+theme_override_constants/separation = 100
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -63,6 +97,11 @@ custom_minimum_size = Vector2(250, 80)
 layout_mode = 2
 theme = ExtResource("2_ovrgc")
 text = "Quit"
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 325
 
 [node name="BlackFade" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
