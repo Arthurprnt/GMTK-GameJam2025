@@ -11,7 +11,7 @@ extends CharacterBody2D
 
 # CONSTANT
 const AIR_BRAKE: int = 1440
-const JUMP_HEIGHT: int = 308
+const JUMP_HEIGHT: int = 250
 const MAX_ACCELERATION: int = 1440
 const MAX_AIR_ACCELERATION: int = 2700
 const MAX_DECELERATION: int = 1368

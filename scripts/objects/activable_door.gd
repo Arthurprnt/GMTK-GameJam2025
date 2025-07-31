@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 @export var activatedPos: Vector2 = Vector2(0, 0)
-@export var activationSpeed: float = 40
+@export var activationSpeed: float = 180
 @export var energySources: Array[StaticBody2D] = []
 
 var notActivatedPos: Vector2

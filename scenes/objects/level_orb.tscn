@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://rqwsubkt2nyi"]
+
+[ext_resource type="Script" uid="uid://bexgyv5lximvh" path="res://scripts/objects/level_orb.gd" id="1_gdb0u"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_yk6mf"]
+size = Vector2(11, 11)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yk6mf"]
+radius = 8.0
+
+[node name="LevelOrb" type="Area2D"]
+script = ExtResource("1_gdb0u")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_yk6mf")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_yk6mf")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

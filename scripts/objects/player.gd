@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 #========================================== IMPORTED NODES =========================================
 
@@ -13,7 +14,7 @@ extends CharacterBody2D
 @onready var coyoteJumpTimer: Timer = $CoyoteJumpTimer
 @onready var jumpBufferTimer: Timer = $JumpBufferTimer
 
-@onready var cloneScene: PackedScene = preload("res://scenes/clone.tscn")
+@onready var cloneScene: PackedScene = preload("res://scenes/objects/clone.tscn")
 
 #===================================================================================================
 

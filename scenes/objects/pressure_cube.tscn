@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://da4s0n62xkyfq"]
 
-[ext_resource type="Script" uid="uid://f6oym5h8vtur" path="res://scripts/pressure_cube.gd" id="1_ltpec"]
+[ext_resource type="Script" uid="uid://f6oym5h8vtur" path="res://scripts/objects/pressure_cube.gd" id="1_ltpec"]
 [ext_resource type="Texture2D" uid="uid://dvehkec7in34s" path="res://assets/pressurecube.png" id="2_u25mc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ltpec"]
