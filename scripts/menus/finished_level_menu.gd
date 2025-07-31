@@ -2,7 +2,6 @@ extends CanvasLayer
 
 @onready var levelTime: Label = $MarginContainer/VBoxContainer/LevelTime
 @onready var totalTimeLabel: Label = $MarginContainer/VBoxContainer/TotalTimeLabel
-@onready var totalTime: Label = $MarginContainer/VBoxContainer/TotalTime
 
 @onready var homeButton: Button = $MarginContainer/VBoxContainer/HBoxContainer/HomeButton
 @onready var replayButton: Button = $MarginContainer/VBoxContainer/HBoxContainer/ReplayButton
@@ -11,8 +10,8 @@ extends CanvasLayer
 func _ready() -> void:
 	if is_instance_valid(GLOBAL.clone):
 		GLOBAL.clone.queue_free()
-	levelTime.text = GLOBAL.msToTimer(GLOBAL.timeInCurrentLevel)
-	totalTime.text = GLOBAL.msToTimer(GLOBAL.totalTimeInLevels)
+	levelTime.text = "Level time\n" + GLOBAL.msToTimer(GLOBAL.timeInCurrentLevel)
+	totalTimeLabel.text = "Total time:\n" + GLOBAL.msToTimer(GLOBAL.totalTimeInLevels)
 	if GLOBAL.currentLevel == GLOBAL.nbLevel:
 		nextButton.queue_free()
 		replayButton.grab_focus()
@@ -20,7 +19,6 @@ func _ready() -> void:
 		if !((GLOBAL.currentLevel+1) in GLOBAL.levelsUnlocked):
 			GLOBAL.levelsUnlocked.append(GLOBAL.currentLevel+1)
 		totalTimeLabel.queue_free()
-		totalTime.queue_free()
 		nextButton.grab_focus()
 
 func _on_home_button_pressed() -> void:

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cc2osn0oeeob1"]
+[gd_scene load_steps=3 format=3 uid="uid://cc2osn0oeeob1"]
 
 [ext_resource type="Script" uid="uid://prgx1m2ubdav" path="res://scripts/scenemanager.gd" id="1_xerks"]
+[ext_resource type="Theme" uid="uid://cj661i3baqy8q" path="res://themes/level_button.tres" id="2_ppdub"]
 
 [node name="Scenemanager" type="Node"]
 process_mode = 1
@@ -27,15 +28,18 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="FPSCounter" type="Label" parent="Overlay/LabelsContainer"]
+visible = false
 layout_mode = 2
+theme = ExtResource("2_ppdub")
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 16
 text = "FPS:"
 
-[node name="TotalTime" type="Label" parent="Overlay/LabelsContainer"]
-visible = false
+[node name="Times" type="Label" parent="Overlay/LabelsContainer"]
 layout_mode = 2
-text = "00:00.000"
-
-[node name="CurrentTime" type="Label" parent="Overlay/LabelsContainer"]
-visible = false
-layout_mode = 2
-text = "00:00.000"
+theme = ExtResource("2_ppdub")
+theme_override_constants/line_spacing = -12
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
+text = "00:00.000
+00:00.000"

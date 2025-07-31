@@ -5,8 +5,7 @@ extends Node
 @onready var controlScene: Control = $controlScene
 
 @onready var fpsCounter: Label = $Overlay/LabelsContainer/FPSCounter
-@onready var totalTimeLabel: Label = $Overlay/LabelsContainer/TotalTime
-@onready var currentTimeLabel: Label = $Overlay/LabelsContainer/CurrentTime
+@onready var timeLabel: Label = $Overlay/LabelsContainer/Times
 
 var currentSceneType: String = "control"
 var currentSceneName: String
@@ -59,8 +58,7 @@ func changeScene(newScenePath: String, newSceneType: String)-> void:
 	GLOBAL.startDropping.emit()
 
 func changeTimerLabelsVisibilityTo(newValue: bool) -> void:
-	totalTimeLabel.visible = newValue
-	currentTimeLabel.visible = newValue
+	timeLabel.visible = newValue
 
 func _ready() -> void:
 	GLOBAL.sceneManager = self
@@ -71,5 +69,4 @@ func _physics_process(delta: float) -> void:
 	if levelScene.get_children().size() > 0:
 		GLOBAL.totalTimeInLevels += delta
 		GLOBAL.timeInCurrentLevel += delta
-		totalTimeLabel.text = GLOBAL.msToTimer(GLOBAL.totalTimeInLevels)
-		currentTimeLabel.text = GLOBAL.msToTimer(GLOBAL.timeInCurrentLevel)
+		timeLabel.text = GLOBAL.msToTimer(GLOBAL.totalTimeInLevels) + "\n" + GLOBAL.msToTimer(GLOBAL.timeInCurrentLevel)

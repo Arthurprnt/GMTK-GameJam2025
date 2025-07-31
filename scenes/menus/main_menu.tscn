@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://7b3x53jw1py0"]
+[gd_scene load_steps=3 format=3 uid="uid://7b3x53jw1py0"]
 
 [ext_resource type="Script" uid="uid://y1ge41nxgf6" path="res://scripts/menus/main_menu.gd" id="1_xqga4"]
+[ext_resource type="Theme" uid="uid://cj661i3baqy8q" path="res://themes/level_button.tres" id="2_ovrgc"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,29 +12,56 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xqga4")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.65098, 0.603922, 0.611765, 1)
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
-offset_left = 500.0
-offset_top = 300.0
-offset_right = 1420.0
-offset_bottom = 780.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_ovrgc")
+theme_override_constants/outline_size = 24
+theme_override_font_sizes/font_size = 128
 text = "GAME NAME"
 horizontal_alignment = 1
 
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 80
+
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 350
-theme_override_constants/margin_right = 350
+theme_override_constants/margin_left = 750
+theme_override_constants/margin_right = 750
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="PlayButton" type="Button" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 80)
 layout_mode = 2
+theme = ExtResource("2_ovrgc")
 text = "Play"
+
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 80)
+layout_mode = 2
+theme = ExtResource("2_ovrgc")
+text = "Quit"
 
 [connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
