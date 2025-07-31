@@ -15,3 +15,6 @@ func _ready() -> void:
 		if !focusedGrab:
 			focusedGrab = true
 			newButton.grab_focus()
+
+func _on_back_button_pressed() -> void:
+	GLOBAL.sceneManager.changeScene("res://scenes/menus/main_menu.tscn", "control")
