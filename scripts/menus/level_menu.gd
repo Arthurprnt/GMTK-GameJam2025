@@ -5,7 +5,7 @@ extends Control
 var focusedGrab: bool = false
 
 func _ready() -> void:
-	for lvl in range(1, GLOBAL.nbLevel+1):
+	for lvl in GLOBAL.levelsUnlocked:
 		var newButton: Button = Button.new()
 		newButton.text = str(lvl)
 		newButton.theme = load("res://themes/level_button.tres")

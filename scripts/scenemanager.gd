@@ -1,10 +1,10 @@
 extends Node
 
+@onready var menuScene: Control = $MenuScene
 @onready var levelScene: Node2D = $LevelScene
 @onready var _2dScene: Node2D = $"2dScene"
 @onready var controlScene: Control = $controlScene
 
-@onready var fpsCounter: Label = $Overlay/LabelsContainer/FPSCounter
 @onready var timeLabel: Label = $Overlay/LabelsContainer/Times
 
 var currentSceneType: String = "control"
@@ -49,6 +49,10 @@ func changeScene(newScenePath: String, newSceneType: String)-> void:
 				s.visible = false
 		changeTimerLabelsVisibilityTo(false)
 		controlScene.visible = true
+	elif newSceneType == "menu":
+		var newScene: CanvasLayer = load(newScenePath).instantiate()
+		menuScene.add_child(newScene)
+		currentScenes["menu"] = newScene
 	
 	if temp != null && !(newSceneType in ["puzzle", "menu"]):
 		temp.queue_free()
@@ -65,8 +69,10 @@ func _ready() -> void:
 	changeScene("res://scenes/menus/main_menu.tscn", "control")
 
 func _physics_process(delta: float) -> void:
-	fpsCounter.text = "FPS: " + str(Engine.get_frames_per_second())
 	if levelScene.get_children().size() > 0:
 		GLOBAL.totalTimeInLevels += delta
 		GLOBAL.timeInCurrentLevel += delta
 		timeLabel.text = GLOBAL.msToTimer(GLOBAL.totalTimeInLevels) + "\n" + GLOBAL.msToTimer(GLOBAL.timeInCurrentLevel)
+	if Input.is_action_just_pressed("menu") && currentSceneType == "level":
+		get_tree().paused = true
+		menuScene.get_child(0).visible = true

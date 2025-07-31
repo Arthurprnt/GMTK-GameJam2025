@@ -10,7 +10,7 @@ extends CanvasLayer
 func _ready() -> void:
 	if is_instance_valid(GLOBAL.clone):
 		GLOBAL.clone.queue_free()
-	levelTime.text = "Level time\n" + GLOBAL.msToTimer(GLOBAL.timeInCurrentLevel)
+	levelTime.text = "Level time:\n" + GLOBAL.msToTimer(GLOBAL.timeInCurrentLevel)
 	totalTimeLabel.text = "Total time:\n" + GLOBAL.msToTimer(GLOBAL.totalTimeInLevels)
 	if GLOBAL.currentLevel == GLOBAL.nbLevel:
 		nextButton.queue_free()

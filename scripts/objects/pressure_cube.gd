@@ -14,6 +14,7 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") #
 
 func _physics_process(delta: float) -> void:
 	if !is_instance_valid(helder):
+		hitbox.disabled = false
 		currentState = State.NotHeld
 	
 	match currentState:
