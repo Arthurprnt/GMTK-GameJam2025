@@ -6,6 +6,10 @@ extends CharacterBody2D
 @onready var hitbox: CollisionShape2D = $Hitbox
 @onready var sprite: Sprite2D = $Sprite
 
+@onready var rotator: Marker2D = $Rotator
+@onready var raycast: RayCast2D = $Rotator/Raycast
+@onready var releasePoint: Node2D = $Rotator/ReleasePoint
+
 @onready var coyoteJumpTimer: Timer = $CoyoteJumpTimer
 @onready var jumpBufferTimer: Timer = $JumpBufferTimer
 
@@ -17,7 +21,7 @@ extends CharacterBody2D
 
 # CONSTANT
 const AIR_BRAKE: int = 1440
-const JUMP_HEIGHT: int = 308
+const JUMP_HEIGHT: int = 250
 const MAX_ACCELERATION: int = 1440
 const MAX_AIR_ACCELERATION: int = 2700
 const MAX_DECELERATION: int = 1368
@@ -52,6 +56,7 @@ var inputsArr: Array = []
 var canMoove: bool = true
 var desiredJump: bool = false
 var hitFloor: bool = false
+var holdingCube: bool = false
 var usedJumpBuffer: bool = false
 
 # FLOAT
@@ -61,11 +66,15 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") #
 var turnSpeed: float
 
 # INT
+var firstRecDir: float = 1
 var lastNonNullDir: float = 1
 
 # VECTOR
 var firstRecPos: Vector2 = Vector2(0, 0)
 var lastVelocity: Vector2 = Vector2(0, 0)
+
+# NODE
+var holdedCube: CharacterBody2D = null
 
 #===================================================================================================
 
@@ -76,7 +85,7 @@ var lastVelocity: Vector2 = Vector2(0, 0)
 func createClone() -> void:
 	var clone: CharacterBody2D = cloneScene.instantiate()
 	get_tree().current_scene.add_child(clone)
-	clone.init(firstRecPos, inputsArr.duplicate())
+	clone.init(firstRecPos, firstRecDir, inputsArr.duplicate())
 
 # MOUVEMENTS RELATED
 
@@ -120,26 +129,47 @@ func movePlayer(delta: float, maxSpeed: float) -> Vector2:
 
 #========================================= GODOT FUNCTIONS =========================================
 
-func _process(delta: float) -> void:
-	var horizontalDirection: float = Input.get_axis("move_left", "move_right")
+func _process(_delta: float) -> void:
+	var _horizontalDirection: float = Input.get_axis("move_left", "move_right")
 	var verticalDirection: float = Input.get_axis("move_up", "move_down")
 	
 	if canMoove:
 		if Input.is_action_just_pressed("start_record"):
+			firstRecDir = lastNonNullDir
 			firstRecPos = global_position
 			inputsArr = []
-		elif Input.is_action_just_pressed("activate_clone"):
+		if Input.is_action_just_pressed("activate_clone"):
 			createClone()
-		elif Input.is_action_just_pressed("jump"):
+		if Input.is_action_just_pressed("interact") && raycast.is_colliding():
+			var object: Node2D = raycast.get_collider()
+			if object is Cube && !holdingCube:
+				holdingCube = true
+				holdedCube = object
+				holdedCube.helder = self
+				holdedCube.currentState = holdedCube.State.Held
+			elif object is Bouton:
+				object.currentState = object.State.Pressed
+				object.pressedTimer.start()
+		elif (Input.is_action_just_pressed("interact") && holdingCube) || !is_instance_valid(holdedCube):
+			holdingCube = false
+			if is_instance_valid(holdedCube):
+				holdedCube.currentState = holdedCube.State.NotHeld
+				holdedCube.global_position = releasePoint.global_position
+				holdedCube.helder = null
+		if Input.is_action_just_pressed("jump"):
 			desiredJump = true
-		if Input.is_action_just_released("jump") && currentState == State.Jump:
+		elif Input.is_action_just_released("jump") && currentState == State.Jump:
 			velocity.y /= 3.5
 
 func _physics_process(delta: float) -> void:
 	var currActions = []
 	for action in InputMap.get_actions():
-		if Input.is_action_pressed(action):
-			currActions.append(str(action))
+		if str(action) in ["move_left", "move_right", "jump"]:
+			if Input.is_action_pressed(action):
+				currActions.append(str(action))
+		else:
+			if Input.is_action_just_pressed(action):
+				currActions.append(str(action))
 	inputsArr.append(currActions)
 	
 	var horizontalDirection: float = Input.get_axis("move_left", "move_right")
@@ -147,6 +177,10 @@ func _physics_process(delta: float) -> void:
 	var wasOnFloor: bool = is_on_floor()
 	
 	if horizontalDirection != 0 && canMoove:
+		if horizontalDirection == 1:
+			rotator.rotation_degrees = 0
+		else:
+			rotator.rotation_degrees = 180
 		lastNonNullDir = horizontalDirection
 	lastVelocity = velocity
 	

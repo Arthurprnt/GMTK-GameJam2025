@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cq4w7f66npi7m"]
+
+[ext_resource type="Script" uid="uid://f30rcmb4no5e" path="res://scripts/activable_door.gd" id="1_0tu70"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_2xw2s"]
+size = Vector2(16, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2xw2s"]
+size = Vector2(16, 48)
+
+[node name="ActivableDoor" type="StaticBody2D" node_paths=PackedStringArray("energySources")]
+script = ExtResource("1_0tu70")
+energySources = [null]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_2xw2s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2xw2s")

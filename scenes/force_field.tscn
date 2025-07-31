@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dinih12o7iku2"]
+
+[ext_resource type="Script" uid="uid://dcsk43x81vk57" path="res://scripts/force_field.gd" id="1_3fsml"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lescw"]
+size = Vector2(3, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3fsml"]
+size = Vector2(3, 32)
+
+[node name="ForceField" type="Area2D"]
+script = ExtResource("1_3fsml")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.254902)
+texture = SubResource("PlaceholderTexture2D_lescw")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3fsml")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

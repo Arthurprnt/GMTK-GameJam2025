@@ -3,29 +3,33 @@
 [ext_resource type="Script" uid="uid://bjpr257w8djgv" path="res://scripts/pressure_plate.gd" id="1_ct5vs"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_8vubt"]
-size = Vector2(16, 8)
+size = Vector2(24, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8vubt"]
-size = Vector2(16, 8)
+size = Vector2(24, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ct5vs"]
-size = Vector2(16, 2)
+size = Vector2(24, 3)
 
 [node name="PressurePlate" type="StaticBody2D"]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_ct5vs")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(0, -4)
+position = Vector2(0, -1)
 texture = SubResource("PlaceholderTexture2D_8vubt")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
-position = Vector2(0, -4)
+position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_8vubt")
 
 [node name="ActivationZone" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
 
 [node name="ActivationHitbox" type="CollisionShape2D" parent="ActivationZone"]
-position = Vector2(0, -8)
+position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_ct5vs")
 
 [connection signal="body_entered" from="ActivationZone" to="." method="_on_activation_zone_body_entered"]

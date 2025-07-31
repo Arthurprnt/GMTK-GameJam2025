@@ -1,7 +1,12 @@
-[gd_scene load_steps=5 format=4 uid="uid://dwwvetjw3xlvm"]
+[gd_scene load_steps=10 format=4 uid="uid://dwwvetjw3xlvm"]
 
 [ext_resource type="Texture2D" uid="uid://hky38gpkj4hl" path="res://icon.svg" id="1_errlg"]
+[ext_resource type="PackedScene" uid="uid://cq4w7f66npi7m" path="res://scenes/activable_door.tscn" id="2_74lek"]
 [ext_resource type="PackedScene" uid="uid://u1r2u6eqmxdw" path="res://scenes/player.tscn" id="2_bl13t"]
+[ext_resource type="PackedScene" uid="uid://cd75a7g3efvbu" path="res://scenes/pressure_plate.tscn" id="3_iyx0m"]
+[ext_resource type="PackedScene" uid="uid://dinih12o7iku2" path="res://scenes/force_field.tscn" id="6_at5dv"]
+[ext_resource type="PackedScene" uid="uid://5yhfmeciq0bv" path="res://scenes/cube_dispenser.tscn" id="6_lpvoh"]
+[ext_resource type="PackedScene" uid="uid://brujhokdywi1o" path="res://scenes/button.tscn" id="7_at5dv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bl13t"]
 texture = ExtResource("1_errlg")
@@ -138,10 +143,32 @@ sources/0 = SubResource("TileSetAtlasSource_bl13t")
 
 [node name="Test" type="Node2D"]
 
+[node name="ForceField" parent="." instance=ExtResource("6_at5dv")]
+position = Vector2(-266, 85)
+
 [node name="Player" parent="." instance=ExtResource("2_bl13t")]
 position = Vector2(-50, 17)
 
+[node name="ActivableDoor" parent="." node_paths=PackedStringArray("energySources") instance=ExtResource("2_74lek")]
+position = Vector2(156, 86)
+activatedPos = Vector2(156, 140)
+energySources = [NodePath("../PressurePlate"), NodePath("../PressurePlate2")]
+
+[node name="PressurePlate" parent="." instance=ExtResource("3_iyx0m")]
+position = Vector2(12, 110)
+
+[node name="PressurePlate2" parent="." instance=ExtResource("3_iyx0m")]
+position = Vector2(117, 110)
+
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(20, -2)
-tile_map_data = PackedByteArray("AAD8/wcAAAADAAMAAAD9/wcAAAADAAMAAAD+/wcAAAADAAMAAAD//wcAAAADAAMAAAAAAAcAAAADAAMAAAABAAcAAAADAAMAAAACAAcAAAADAAMAAAADAAcAAAADAAMAAAAEAAcAAAADAAMAAAAFAAcAAAADAAMAAAAGAAcAAAADAAMAAAAHAAcAAAADAAMAAAAIAAcAAAADAAMAAAAJAAcAAAADAAMAAAAKAAcAAAADAAMAAAALAAcAAAADAAMAAAAMAAcAAAADAAMAAAANAAcAAAADAAMAAAAOAAcAAAADAAMAAAAPAAcAAAADAAMAAAAQAAcAAAADAAMAAAARAAcAAAADAAMAAAASAAcAAAADAAMAAAATAAcAAAADAAMAAAD7/wcAAAADAAMAAAD6/wcAAAADAAMAAAD5/wcAAAADAAMAAAD4/wcAAAADAAMAAAD3/wcAAAADAAMAAAD2/wcAAAADAAMAAAD1/wcAAAADAAMAAAD0/wcAAAADAAMAAADz/wcAAAADAAMAAADy/wcAAAADAAMAAADx/wcAAAADAAMAAADw/wcAAAADAAMAAADv/wcAAAADAAMAAADu/wcAAAADAAMAAADt/wcAAAADAAMAAADs/wcAAAADAAMAAADr/wcAAAADAAMAAADq/wcAAAADAAMAAADp/wcAAAADAAMAAADo/wcAAAADAAMAAADn/wcAAAADAAMAAADm/wcAAAADAAMAAAA=")
+tile_map_data = PackedByteArray("AAD8/wcAAAADAAMAAAD9/wcAAAADAAMAAAD+/wcAAAADAAMAAAD//wcAAAADAAMAAAAAAAcAAAADAAMAAAABAAcAAAADAAMAAAACAAcAAAADAAMAAAADAAcAAAADAAMAAAAEAAcAAAADAAMAAAAFAAcAAAADAAMAAAAGAAcAAAADAAMAAAAHAAcAAAADAAMAAAAIAAcAAAADAAMAAAAJAAcAAAADAAMAAAAKAAcAAAADAAMAAAALAAcAAAADAAMAAAAMAAcAAAADAAMAAAANAAcAAAADAAMAAAAOAAcAAAADAAMAAAAPAAcAAAADAAMAAAAQAAcAAAADAAMAAAARAAcAAAADAAMAAAASAAcAAAADAAMAAAATAAcAAAADAAMAAAD7/wcAAAADAAMAAAD6/wcAAAADAAMAAAD5/wcAAAADAAMAAAD4/wcAAAADAAMAAAD3/wcAAAADAAMAAAD2/wcAAAADAAMAAAD1/wcAAAADAAMAAAD0/wcAAAADAAMAAADz/wcAAAADAAMAAADy/wcAAAADAAMAAADx/wcAAAADAAMAAADw/wcAAAADAAMAAADv/wcAAAADAAMAAADu/wcAAAADAAMAAADt/wcAAAADAAMAAADs/wcAAAADAAMAAADr/wcAAAADAAMAAADq/wcAAAADAAMAAADp/wcAAAADAAMAAADo/wcAAAADAAMAAADn/wcAAAADAAMAAADm/wcAAAADAAMAAAAIAAMAAAADAAQAAAAIAAIAAAADAAQAAAAIAAEAAAADAAQAAAAIAAAAAAADAAQAAAA=")
 tile_set = SubResource("TileSet_iyx0m")
+
+[node name="CubeDispenser" parent="." node_paths=PackedStringArray("energySources") instance=ExtResource("6_lpvoh")]
+position = Vector2(-174, 8)
+automaticalyDispense = false
+energySources = [NodePath("../Button")]
+
+[node name="Button" parent="." instance=ExtResource("7_at5dv")]
+position = Vector2(-139, 104)

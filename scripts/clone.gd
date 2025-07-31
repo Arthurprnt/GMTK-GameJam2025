@@ -1,5 +1,9 @@
 extends CharacterBody2D
 
+@onready var rotator: Marker2D = $Rotator
+@onready var raycast: RayCast2D = $Rotator/Raycast
+@onready var releasePoint: Node2D = $Rotator/ReleasePoint
+
 @onready var coyoteJumpTimer: Timer = $CoyoteJumpTimer
 @onready var jumpBufferTimer: Timer = $JumpBufferTimer
 
@@ -42,6 +46,7 @@ var inputsArray: Array = []
 var canMoove: bool = true
 var canStart: bool = false
 var desiredJump: bool = false
+var holdingCube: bool = false
 var wasJumpEmulated: bool = false
 var hitFloor: bool = false
 var usedJumpBuffer: bool = false
@@ -59,6 +64,9 @@ var lastNonNullDir: float = 1
 var firstRecPos: Vector2 = Vector2(0, 0)
 var lastVelocity: Vector2 = Vector2(0, 0)
 
+# NODE
+var holdedCube: CharacterBody2D
+
 #===================================================================================================
 
 func getAxis(leftAction: String, rightAction: String, actionsArr: Array) -> int:
@@ -72,7 +80,12 @@ func getAxis(leftAction: String, rightAction: String, actionsArr: Array) -> int:
 func isActionEmulated(action: String, actionsArr: Array) -> bool:
 	return (action in actionsArr)
 
-func init(initPos: Vector2, newArr: Array) -> void:
+func init(initPos: Vector2, initDir: int, newArr: Array) -> void:
+	if initDir != 0:
+		if initDir == 1:
+			rotator.rotation_degrees = 0
+		else:
+			rotator.rotation_degrees = 180
 	global_position = initPos
 	inputsArray = newArr
 	await get_tree().create_timer(0.01).timeout
@@ -123,8 +136,31 @@ func _physics_process(delta: float) -> void:
 			var wasOnFloor: bool = is_on_floor()
 			
 			var horizontalDirection: float = getAxis("move_left", "move_right", actions)
-			var verticalDirection: float = getAxis("move_up", "move_down", actions)
 			
+			if horizontalDirection != 0 && canMoove:
+				if horizontalDirection == 1:
+					rotator.rotation_degrees = 0
+				else:
+					rotator.rotation_degrees = 180
+				lastNonNullDir = horizontalDirection
+			lastVelocity = velocity
+			
+			if isActionEmulated("interact", actions) && raycast.is_colliding():
+				var object: Node2D = raycast.get_collider()
+				if object is Cube && !holdingCube:
+					holdingCube = true
+					holdedCube = object
+					holdedCube.helder = self
+					holdedCube.currentState = holdedCube.State.Held
+				elif object is Bouton:
+					object.currentState = object.State.Pressed
+					object.pressedTimer.start()
+			elif (isActionEmulated("interact", actions) && holdingCube) || !is_instance_valid(holdedCube):
+				holdingCube = false
+				if is_instance_valid(holdedCube):
+					holdedCube.currentState = holdedCube.State.NotHeld
+					holdedCube.global_position = releasePoint.global_position
+					holdedCube.helder = null
 			if isActionEmulated("jump", actions):
 				desiredJump = true
 			elif !isActionEmulated("jump", actions) && wasJumpEmulated && currentState == State.Jump:

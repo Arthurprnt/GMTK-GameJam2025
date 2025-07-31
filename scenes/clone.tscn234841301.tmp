@@ -24,7 +24,6 @@ shape = SubResource("RectangleShape2D_ypstt")
 
 [node name="Raycast" type="RayCast2D" parent="Rotator"]
 target_position = Vector2(22, 0)
-collision_mask = 8
 
 [node name="ReleasePoint" type="Node2D" parent="Rotator"]
 position = Vector2(24, 0)
