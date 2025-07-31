@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://cd75a7g3efvbu"]
+
+[ext_resource type="Script" uid="uid://bjpr257w8djgv" path="res://scripts/pressure_plate.gd" id="1_ct5vs"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_8vubt"]
+size = Vector2(16, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8vubt"]
+size = Vector2(16, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ct5vs"]
+size = Vector2(16, 2)
+
+[node name="PressurePlate" type="StaticBody2D"]
+script = ExtResource("1_ct5vs")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = SubResource("PlaceholderTexture2D_8vubt")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_8vubt")
+
+[node name="ActivationZone" type="Area2D" parent="."]
+
+[node name="ActivationHitbox" type="CollisionShape2D" parent="ActivationZone"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_ct5vs")
+
+[connection signal="body_entered" from="ActivationZone" to="." method="_on_activation_zone_body_entered"]
+[connection signal="body_exited" from="ActivationZone" to="." method="_on_activation_zone_body_exited"]
