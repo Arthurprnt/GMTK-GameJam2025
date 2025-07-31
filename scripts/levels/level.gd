@@ -9,4 +9,3 @@ func showEndMenu() -> void:
 
 func _ready() -> void:
 	GLOBAL.endLevel.connect(showEndMenu)
-	

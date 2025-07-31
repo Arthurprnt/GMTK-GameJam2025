@@ -1,5 +1,6 @@
 extends Area2D
 
+@export var defaultState: State = State.Activated
 @export var height: float = 32
 @export var energySources: Array[StaticBody2D] = []
 
@@ -10,7 +11,13 @@ enum State {
 	Activated,
 	NotActivated
 }
-var currentState: State = State.Activated
+var currentState: State = defaultState
+
+func otherState(state: State) -> State:
+	if state == State.Activated:
+		return State.NotActivated
+	else:
+		return State.Activated
 
 func _ready() -> void:
 	sprite.scale.y = height/32
@@ -18,10 +25,10 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if energySources != []:
-		var newState: State = State.NotActivated
+		var newState: State = otherState(defaultState)
 		for es in energySources:
 			if es.currentState == es.State.NotPressed:
-				newState = State.Activated
+				newState = defaultState
 		currentState = newState
 	
 	match currentState:
@@ -33,8 +40,32 @@ func _physics_process(delta: float) -> void:
 			hitbox.disabled = true
 
 func _on_body_entered(body: Node2D) -> void:
+	print(body.name)
 	if body is Cube:
 		body.queue_free()
 	elif body is CharacterBody2D:
 		if body.holdingCube:
-			body.holdedCube.queue_free()
+			# HORRIBLE CODE INCOMING DONT MIND
+			#======================================================================
+			var cubeStartingX: float = body.holdedCube.global_position.x - 8
+			var cubeEndingX: float = body.holdedCube.global_position.x + 8
+			var fieldStartingX: float = global_position.x - 1.5
+			var fieldEndingX: float = global_position.x + 1.5
+			
+			var cubeStartingY: float = body.holdedCube.global_position.y - 8
+			var cubeEndingY: float = body.holdedCube.global_position.y + 8
+			var fieldStartingY: float = global_position.y - (height/2)
+			var fieldEndingY: float = global_position.y + (height/2)
+			
+			if rotation_degrees != 0:
+				var temp: float = fieldStartingX
+				fieldStartingX = fieldStartingY
+				fieldStartingY = temp
+				temp = fieldEndingX
+				fieldEndingX = fieldEndingY
+				fieldEndingY = temp
+			
+			if (cubeStartingX < fieldStartingX && fieldStartingX < cubeEndingX) ||\
+			   (cubeStartingY < fieldStartingY && fieldStartingY < cubeEndingY):
+				body.holdedCube.queue_free()
+			#======================================================================

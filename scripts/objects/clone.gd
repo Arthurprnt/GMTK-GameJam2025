@@ -158,6 +158,7 @@ func _physics_process(delta: float) -> void:
 					holdedCube = object
 					holdedCube.helder = self
 					holdedCube.currentState = holdedCube.State.Held
+					holdedCube.hitbox.disabled = true
 				elif object is Bouton:
 					object.currentState = object.State.Pressed
 					object.pressedTimer.start()
@@ -167,6 +168,7 @@ func _physics_process(delta: float) -> void:
 					holdedCube.currentState = holdedCube.State.NotHeld
 					holdedCube.global_position = releasePoint.global_position
 					holdedCube.helder = null
+					holdedCube.hitbox.disabled = false
 			if isActionEmulated("jump", actions):
 				desiredJump = true
 			elif !isActionEmulated("jump", actions) && wasJumpEmulated && currentState == State.Jump:

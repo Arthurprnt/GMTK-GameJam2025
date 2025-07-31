@@ -18,10 +18,8 @@ func _physics_process(delta: float) -> void:
 	
 	match currentState:
 		State.Held:
-			hitbox.disabled = true
 			velocity = Vector2(0, 0)
 			global_position = Vector2(helder.global_position.x, helder.global_position.y - 18)
 		State.NotHeld:
-			hitbox.disabled = false
 			velocity.y += gravity * delta
-			move_and_slide()
+	move_and_slide()

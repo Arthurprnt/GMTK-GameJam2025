@@ -20,6 +20,7 @@ func createChild() -> void:
 	
 func _ready() -> void:
 	if automaticalyDispense:
+		await GLOBAL.startDropping
 		createChild()
 
 func _physics_process(_delta: float) -> void:

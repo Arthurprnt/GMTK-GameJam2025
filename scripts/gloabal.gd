@@ -1,11 +1,12 @@
 extends Node
 
 signal endLevel
+signal startDropping
 
 var clone: CharacterBody2D
 var currentLevel: int = 1
 var levelsUnlocked: Array[int] = [1]
-var nbLevel: int = 4
+var nbLevel: int = 6
 var player: CharacterBody2D
 var sceneManager: Node
 var showTimers: bool = true

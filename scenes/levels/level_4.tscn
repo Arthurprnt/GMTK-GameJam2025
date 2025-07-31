@@ -33,6 +33,11 @@ script = ExtResource("1_sk5k4")
 scale = Vector2(100, 100)
 texture = SubResource("GradientTexture2D_7u6i3")
 
+[node name="ForceField" parent="." node_paths=PackedStringArray("energySources") instance=ExtResource("9_um320")]
+position = Vector2(1, -72)
+height = 128.0
+energySources = [NodePath("../Button2")]
+
 [node name="Player" parent="." instance=ExtResource("2_6iamk")]
 position = Vector2(-248, -40)
 
@@ -47,11 +52,6 @@ energySources = [NodePath("../Button")]
 [node name="Button2" parent="." instance=ExtResource("5_ugcn1")]
 position = Vector2(34, -22)
 activeTime = 1.75
-
-[node name="ForceField" parent="." node_paths=PackedStringArray("energySources") instance=ExtResource("9_um320")]
-position = Vector2(1, -72)
-height = 128.0
-energySources = [NodePath("../Button2")]
 
 [node name="PressurePlate" parent="." instance=ExtResource("3_x42e6")]
 position = Vector2(180, -16)

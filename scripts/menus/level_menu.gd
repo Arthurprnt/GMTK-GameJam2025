@@ -5,11 +5,11 @@ extends Control
 var focusedGrab: bool = false
 
 func _ready() -> void:
-	for lvl in GLOBAL.levelsUnlocked:
+	for lvl in range(1, GLOBAL.nbLevel+1):
 		var newButton: Button = Button.new()
 		newButton.text = str(lvl)
 		newButton.custom_minimum_size = Vector2(50, 50)
-		newButton.pressed.connect(func(): GLOBAL.sceneManager.changeScene("res://scenes/levels/level_" + str(lvl) +".tscn", "level"))
+		newButton.pressed.connect(func(): GLOBAL.currentLevel = lvl; GLOBAL.timeInCurrentLevel = 0; GLOBAL.sceneManager.changeScene("res://scenes/levels/level_" + str(lvl) +".tscn", "level"))
 		gridContainer.add_child(newButton)
 		if !focusedGrab:
 			focusedGrab = true

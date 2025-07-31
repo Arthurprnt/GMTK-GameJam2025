@@ -39,7 +39,6 @@ func changeScene(newScenePath: String, newSceneType: String)-> void:
 			if s != levelScene:
 				s.visible = false
 		levelScene.visible = true
-		GLOBAL.timeInCurrentLevel = 0
 		if GLOBAL.showTimers:
 			changeTimerLabelsVisibilityTo(true)
 	elif newSceneType == "control":
@@ -57,6 +56,7 @@ func changeScene(newScenePath: String, newSceneType: String)-> void:
 	if newSceneType != "menu":
 		currentSceneType = newSceneType
 	#print_tree_pretty()
+	GLOBAL.startDropping.emit()
 
 func changeTimerLabelsVisibilityTo(newValue: bool) -> void:
 	totalTimeLabel.visible = newValue
