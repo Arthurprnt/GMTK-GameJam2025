@@ -145,6 +145,7 @@ sources/0 = SubResource("TileSetAtlasSource_bl13t")
 
 [node name="ForceField" parent="." instance=ExtResource("6_at5dv")]
 position = Vector2(-266, 85)
+height = 64.0
 
 [node name="Player" parent="." instance=ExtResource("2_bl13t")]
 position = Vector2(-50, 17)

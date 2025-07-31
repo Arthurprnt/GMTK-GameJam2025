@@ -28,12 +28,12 @@ func _physics_process(delta: float) -> void:
 			global_position.x = move_toward(global_position.x, notPressedPos.x, delta * activationSpeed)
 			global_position.y = move_toward(global_position.y, notPressedPos.y, delta * activationSpeed)
 
-func _on_activation_zone_body_entered(body: Node2D) -> void:
+func _on_activation_zone_body_entered(_body: Node2D) -> void:
 	nbEntitiesOnTop += 1
 	if nbEntitiesOnTop > 0:
 		currentState = State.Pressed
 
-func _on_activation_zone_body_exited(body: Node2D) -> void:
+func _on_activation_zone_body_exited(_body: Node2D) -> void:
 	nbEntitiesOnTop -= 1
 	if nbEntitiesOnTop == 0:
 		currentState = State.NotPressed

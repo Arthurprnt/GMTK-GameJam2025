@@ -1,9 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://brujhokdywi1o"]
 
 [ext_resource type="Script" uid="uid://bsay6m7ydpje7" path="res://scripts/button.gd" id="1_mi6dp"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_n4pas"]
-size = Vector2(4, 12)
+[ext_resource type="Texture2D" uid="uid://dc2koi0inlm5g" path="res://assets/button.png" id="2_rhj8v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n4pas"]
 size = Vector2(4, 12)
@@ -14,12 +12,13 @@ collision_mask = 9
 script = ExtResource("1_mi6dp")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_n4pas")
+texture = ExtResource("2_rhj8v")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_n4pas")
 
 [node name="PressedTimer" type="Timer" parent="."]
+wait_time = 0.06
 one_shot = true
 
 [connection signal="timeout" from="PressedTimer" to="." method="_on_pressed_timer_timeout"]

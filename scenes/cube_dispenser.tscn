@@ -1,9 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://5yhfmeciq0bv"]
 
 [ext_resource type="Script" uid="uid://dqpqo6m0e5mlu" path="res://scripts/cube_dispenser.gd" id="1_1ij5f"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_k8lxi"]
-size = Vector2(32, 16)
+[ext_resource type="Texture2D" uid="uid://chfcxcni64tcs" path="res://assets/cubedispenser.png" id="2_42c64"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k8lxi"]
 size = Vector2(32, 16)
@@ -12,10 +10,10 @@ size = Vector2(32, 16)
 script = ExtResource("1_1ij5f")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_k8lxi")
+texture = ExtResource("2_42c64")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_k8lxi")
 
 [node name="DropPos" type="Node2D" parent="."]
-position = Vector2(0, 22)
+position = Vector2(0, 17)

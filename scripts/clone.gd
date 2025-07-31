@@ -211,3 +211,7 @@ func _physics_process(delta: float) -> void:
 			wasJumpEmulated = isActionEmulated("jump", actions)
 		else:
 			queue_free()
+
+func _on_death_zone_body_entered(body: Node2D) -> void:
+	if body is Cube:
+		queue_free()

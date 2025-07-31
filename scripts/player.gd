@@ -58,6 +58,7 @@ var desiredJump: bool = false
 var hitFloor: bool = false
 var holdingCube: bool = false
 var usedJumpBuffer: bool = false
+var usedRecord: bool = true
 
 # FLOAT
 var acceleration: float
@@ -70,6 +71,7 @@ var firstRecDir: float = 1
 var lastNonNullDir: float = 1
 
 # VECTOR
+var respawnPos: Vector2
 var firstRecPos: Vector2 = Vector2(0, 0)
 var lastVelocity: Vector2 = Vector2(0, 0)
 
@@ -86,6 +88,9 @@ func createClone() -> void:
 	var clone: CharacterBody2D = cloneScene.instantiate()
 	get_tree().current_scene.add_child(clone)
 	clone.init(firstRecPos, firstRecDir, inputsArr.duplicate())
+
+func killPlayer() -> void:
+	get_tree().reload_current_scene()
 
 # MOUVEMENTS RELATED
 
@@ -129,16 +134,21 @@ func movePlayer(delta: float, maxSpeed: float) -> Vector2:
 
 #========================================= GODOT FUNCTIONS =========================================
 
+func _ready() -> void:
+	respawnPos = global_position
+
 func _process(_delta: float) -> void:
 	var _horizontalDirection: float = Input.get_axis("move_left", "move_right")
-	var verticalDirection: float = Input.get_axis("move_up", "move_down")
+	var _verticalDirection: float = Input.get_axis("move_up", "move_down")
 	
 	if canMoove:
 		if Input.is_action_just_pressed("start_record"):
 			firstRecDir = lastNonNullDir
 			firstRecPos = global_position
 			inputsArr = []
-		if Input.is_action_just_pressed("activate_clone"):
+			usedRecord = false
+		if Input.is_action_just_pressed("activate_clone") && !usedRecord:
+			usedRecord = true
 			createClone()
 		if Input.is_action_just_pressed("interact") && raycast.is_colliding():
 			var object: Node2D = raycast.get_collider()
@@ -173,7 +183,7 @@ func _physics_process(delta: float) -> void:
 	inputsArr.append(currActions)
 	
 	var horizontalDirection: float = Input.get_axis("move_left", "move_right")
-	var verticalDirection: float = Input.get_axis("move_up", "move_down")
+	var _verticalDirection: float = Input.get_axis("move_up", "move_down")
 	var wasOnFloor: bool = is_on_floor()
 	
 	if horizontalDirection != 0 && canMoove:
@@ -228,3 +238,7 @@ func _physics_process(delta: float) -> void:
 			usedJumpBuffer = true
 
 #===================================================================================================
+
+func _on_death_zone_body_entered(body: Node2D) -> void:
+	if body is Cube:
+		killPlayer()

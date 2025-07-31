@@ -6,7 +6,7 @@ extends Area2D
 @onready var hitbox: CollisionShape2D = $Hitbox
 
 func _ready() -> void:
-	sprite.texture.size = Vector2(3, height)
+	sprite.scale.y = height/32
 	hitbox.shape.size = Vector2(3, height)
 
 func _on_body_entered(body: Node2D) -> void:
