@@ -87,11 +87,11 @@ var holdedCube: CharacterBody2D = null
 
 func createClone() -> void:
 	var clone: CharacterBody2D = cloneScene.instantiate()
-	get_tree().current_scene.add_child(clone)
+	GLOBAL.sceneManager.levelScene.add_child(clone)
 	clone.init(firstRecPos, firstRecDir, inputsArr.duplicate())
 
-func killPlayer() -> void:
-	get_tree().reload_current_scene()
+func kill() -> void:
+	GLOBAL.sceneManager.changeScene("res://scenes/levels/level_" + str(GLOBAL.currentLevel) + ".tscn", "level")
 
 # MOUVEMENTS RELATED
 
@@ -136,6 +136,7 @@ func movePlayer(delta: float, maxSpeed: float) -> Vector2:
 #========================================= GODOT FUNCTIONS =========================================
 
 func _ready() -> void:
+	GLOBAL.player = self
 	respawnPos = global_position
 
 func _process(_delta: float) -> void:
@@ -242,4 +243,4 @@ func _physics_process(delta: float) -> void:
 
 func _on_death_zone_body_entered(body: Node2D) -> void:
 	if body is Cube:
-		killPlayer()
+		kill()

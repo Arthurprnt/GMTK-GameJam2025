@@ -1,0 +1,69 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvg0ug4eayh6n"]
+
+[ext_resource type="Script" uid="uid://bsmeommykttcw" path="res://scripts/menus/finished_level_menu.gd" id="1_4p1ov"]
+
+[node name="FinishedLevelMenu" type="CanvasLayer"]
+script = ExtResource("1_4p1ov")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 500
+theme_override_constants/margin_top = 300
+theme_override_constants/margin_right = 500
+theme_override_constants/margin_bottom = 300
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="LevelCompleted" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Level completed!"
+horizontal_alignment = 1
+
+[node name="LevelTime" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "00:00.000"
+horizontal_alignment = 1
+
+[node name="TotalTimeLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Total time:"
+horizontal_alignment = 1
+
+[node name="TotalTime" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "00:00.000"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="HomeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Home"
+
+[node name="ReplayButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Replay"
+
+[node name="NextButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Next"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/HomeButton" to="." method="_on_home_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ReplayButton" to="." method="_on_replay_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/NextButton" to="." method="_on_next_button_pressed"]

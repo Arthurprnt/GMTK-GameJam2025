@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://cc2osn0oeeob1"]
+
+[ext_resource type="Script" uid="uid://prgx1m2ubdav" path="res://scripts/scenemanager.gd" id="1_xerks"]
+
+[node name="Scenemanager" type="Node"]
+process_mode = 1
+script = ExtResource("1_xerks")
+
+[node name="LevelScene" type="Node2D" parent="." groups=["scenesNodes"]]
+visible = false
+
+[node name="2dScene" type="Node2D" parent="." groups=["scenesNodes"]]
+visible = false
+
+[node name="controlScene" type="Control" parent="." groups=["scenesNodes"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+
+[node name="LabelsContainer" type="VBoxContainer" parent="Overlay"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="FPSCounter" type="Label" parent="Overlay/LabelsContainer"]
+layout_mode = 2
+text = "FPS:"
+
+[node name="TotalTime" type="Label" parent="Overlay/LabelsContainer"]
+visible = false
+layout_mode = 2
+text = "00:00.000"
+
+[node name="CurrentTime" type="Label" parent="Overlay/LabelsContainer"]
+visible = false
+layout_mode = 2
+text = "00:00.000"

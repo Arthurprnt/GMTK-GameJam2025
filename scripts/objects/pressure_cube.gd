@@ -13,6 +13,9 @@ var helder: CharacterBody2D = null
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") # Get gravity from project settings (synced with RigidBody nodes)
 
 func _physics_process(delta: float) -> void:
+	if !is_instance_valid(helder):
+		currentState = State.NotHeld
+	
 	match currentState:
 		State.Held:
 			hitbox.disabled = true

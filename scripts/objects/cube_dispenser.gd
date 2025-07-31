@@ -4,7 +4,7 @@ extends StaticBody2D
 @export var energySources: Array[StaticBody2D] = []
 
 @onready var dropPos: Node2D = $DropPos
-@onready var cubeScene: PackedScene = preload("res://scenes/pressure_cube.tscn")
+@onready var cubeScene: PackedScene = preload("res://scenes/objects/pressure_cube.tscn")
 
 var cubeChild: CharacterBody2D
 var droppedSincedLastAct: bool = false
@@ -16,7 +16,7 @@ func createChild() -> void:
 	var newCube: CharacterBody2D = cubeScene.instantiate()
 	newCube.global_position = dropPos.global_position
 	cubeChild = newCube
-	get_tree().current_scene.add_child.call_deferred(cubeChild)
+	GLOBAL.sceneManager.currentScenes["level"].add_child.call_deferred(cubeChild)
 	
 func _ready() -> void:
 	if automaticalyDispense:

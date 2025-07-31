@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Clone
 
 @onready var rotator: Marker2D = $Rotator
 @onready var raycast: RayCast2D = $Rotator/Raycast
@@ -69,6 +70,9 @@ var holdedCube: CharacterBody2D
 
 #===================================================================================================
 
+func kill() -> void:
+	queue_free()
+
 func getAxis(leftAction: String, rightAction: String, actionsArr: Array) -> int:
 	var dir: int = 0
 	if isActionEmulated(leftAction, actionsArr):
@@ -128,8 +132,10 @@ func movePlayer(delta: float, maxSpeed: float, actionsArr: Array) -> Vector2:
 	newVelocity.x = move_toward(newVelocity.x, desiredVelocity, maxSpeedChange)
 	return newVelocity
 
+func _ready() -> void:
+	GLOBAL.clone = self
+
 func _physics_process(delta: float) -> void:
-	
 	if canStart:
 		if inputsArray != []:
 			var actions: Array = inputsArray.pop_front()
@@ -214,4 +220,4 @@ func _physics_process(delta: float) -> void:
 
 func _on_death_zone_body_entered(body: Node2D) -> void:
 	if body is Cube:
-		queue_free()
+		kill()

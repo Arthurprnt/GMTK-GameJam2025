@@ -33,8 +33,5 @@ func _physics_process(delta: float) -> void:
 			hitbox.disabled = true
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is Cube:
-		body.queue_free()
-	elif body is CharacterBody2D:
-		if body.holdingCube:
-			body.holdedCube.queue_free()
+	if body is Player || body is Clone:
+		body.kill()
