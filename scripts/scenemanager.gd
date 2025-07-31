@@ -58,8 +58,9 @@ func changeScene(newScenePath: String, newSceneType: String)-> void:
 		temp.queue_free()
 	if newSceneType != "menu":
 		currentSceneType = newSceneType
+		if newSceneType == "level":
+			GLOBAL.startDropping.emit()
 	#print_tree_pretty()
-	GLOBAL.startDropping.emit()
 
 func changeTimerLabelsVisibilityTo(newValue: bool) -> void:
 	timeLabel.visible = newValue

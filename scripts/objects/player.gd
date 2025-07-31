@@ -22,7 +22,7 @@ class_name Player
 
 # CONSTANT
 const AIR_BRAKE: int = 1440
-const JUMP_HEIGHT: int = 250
+var JUMP_HEIGHT: int = 250
 const MAX_ACCELERATION: int = 1440
 const MAX_AIR_ACCELERATION: int = 2700
 const MAX_DECELERATION: int = 1368
@@ -87,7 +87,7 @@ var holdedCube: CharacterBody2D = null
 
 func createClone() -> void:
 	var clone: CharacterBody2D = cloneScene.instantiate()
-	GLOBAL.sceneManager.levelScene.add_child(clone)
+	GLOBAL.sceneManager.currentScenes["level"].add_child(clone)
 	clone.init(firstRecPos, firstRecDir, inputsArr.duplicate())
 
 func kill() -> void:
