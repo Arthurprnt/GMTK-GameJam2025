@@ -32,6 +32,7 @@ var exitValue: float = 1.8
 
 func funcToConnect() -> void:
 	GLOBAL.sceneManager.changeScene("res://scenes/levels/level_0.tscn", "level")
+	GLOBAL.currentLevel = 0
 	GLOBAL.sceneManager.changeTimerLabelsVisibilityTo(false)
 
 func _ready() -> void:
@@ -45,6 +46,9 @@ func _on_play_button_pressed() -> void:
 		GLOBAL.sceneManager.changeScene("res://scenes/menus/level_menu.tscn", "control")
 	else:
 		GLOBAL.sceneManager.changeScene("res://scenes/levels/level_-1.tscn", "level")
+		GLOBAL.currentLevel = -1
+		GLOBAL.sceneManager.changeTimerLabelsVisibilityTo(false)
+		GLOBAL.sceneManager.ost.stop()
 
 func _on_quit_button_pressed() -> void:
 	if !usedCode["help"]:

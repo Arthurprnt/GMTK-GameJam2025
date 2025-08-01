@@ -42,10 +42,7 @@ func changeScene(newScenePath: String, newSceneType: String)-> void:
 				s.visible = false
 		levelScene.visible = true
 		GLOBAL.nbCloneAvailable = newScene.cloneNumber
-		if newScene.cloneNumber == -1:
-			changeTimerLabelsVisibilityTo(false)
-			ost.stop()
-		elif GLOBAL.showTimers:
+		if GLOBAL.showTimers:
 			changeTimerLabelsVisibilityTo(true)
 	elif newSceneType == "control":
 		var newScene: Control = load(newScenePath).instantiate()

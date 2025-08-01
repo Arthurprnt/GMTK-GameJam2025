@@ -12,7 +12,13 @@ func closeMenu() -> void:
 
 func _ready() -> void:
 	closeButton.grab_focus()
-	if GLOBAL.currentLevel == 1:
+	if GLOBAL.currentLevel == -2:
+		instructionsLabel.text = "Who is she ?"
+	elif GLOBAL.currentLevel == -1:
+		instructionsLabel.text = "What the fu-"
+	elif GLOBAL.currentLevel == 0:
+		instructionsLabel.text = "Something's off..."
+	elif GLOBAL.currentLevel == 1:
 		instructionsLabel.text = "Press O to record your actions.\nPress P to summon your recorded clone."
 	elif GLOBAL.currentLevel == 2:
 		instructionsLabel.text = "Plates can power devices.\nYou can press TAB to check the links between objects."
