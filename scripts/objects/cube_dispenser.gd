@@ -23,7 +23,14 @@ func _ready() -> void:
 		await GLOBAL.startDropping
 		createChild()
 
+func _draw() -> void:
+	if Input.is_action_pressed("tab"):
+		for es in energySources:
+			draw_line(to_local(global_position), to_local(es.global_position), GLOBAL.linesColor, 1, false)
+
 func _physics_process(_delta: float) -> void:
+	queue_redraw()
+	
 	var isActivated: bool = true
 	for es in energySources:
 		if es.currentState == es.State.NotPressed:

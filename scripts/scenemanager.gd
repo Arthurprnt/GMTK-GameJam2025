@@ -8,6 +8,8 @@ extends Node
 @onready var nbCloneLabel: Label = $Overlay/HBoxContainer/LabelsContainer/NbCloneLabel
 @onready var timeLabel: Label = $Overlay/HBoxContainer/LabelsContainer/Times
 
+@onready var ost: AudioStreamPlayer = $Ost
+
 var currentSceneType: String = "control"
 var currentSceneName: String
 var currentScenes: Dictionary = {
@@ -40,7 +42,10 @@ func changeScene(newScenePath: String, newSceneType: String)-> void:
 				s.visible = false
 		levelScene.visible = true
 		GLOBAL.nbCloneAvailable = newScene.cloneNumber
-		if GLOBAL.showTimers:
+		if newScene.cloneNumber == -1:
+			changeTimerLabelsVisibilityTo(false)
+			ost.stop()
+		elif GLOBAL.showTimers:
 			changeTimerLabelsVisibilityTo(true)
 	elif newSceneType == "control":
 		var newScene: Control = load(newScenePath).instantiate()
@@ -69,10 +74,13 @@ func changeTimerLabelsVisibilityTo(newValue: bool) -> void:
 	timeLabel.visible = newValue
 
 func _ready() -> void:
+	ost.finished.connect(func(): ost.play())
+	ost.play()
 	GLOBAL.sceneManager = self
 	changeScene("res://scenes/menus/main_menu.tscn", "control")
 
 func _physics_process(delta: float) -> void:
+	#print(Engine.get_frames_per_second())
 	nbCloneLabel.text = "Clone available: " + str(GLOBAL.nbCloneAvailable)
 	if levelScene.get_children().size() > 0:
 		GLOBAL.totalTimeInLevels += delta

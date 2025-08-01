@@ -13,7 +13,10 @@ enum State {
 var currentState: State = State.NotHeld
 
 var helder: CharacterBody2D = null
-var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") # Get gravity from project settings (synced with RigidBody nodes)
+var inPulsor: bool = false
+var gravity: Vector2 = GLOBAL.defaultGravity
+var pulsorYCoord: float
+var pulsorCount: int = 0
 
 func _physics_process(delta: float) -> void:
 	if !is_instance_valid(helder):
@@ -27,7 +30,10 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2(0, 0)
 			global_position = Vector2(helder.global_position.x, helder.global_position.y - 18)
 		State.NotHeld:
-			velocity.y += gravity * delta
+			velocity.x = gravity.x * 1.5 * delta
+			if inPulsor:
+				velocity.y += sign(pulsorYCoord - global_position.y) * delta * 5
+			velocity.y += gravity.y * delta
 	
 	move_and_slide()
 	

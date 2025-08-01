@@ -3,21 +3,28 @@ extends Control
 @onready var spawnPos: Node2D = $LevelBackgound/SpawnPos
 @onready var levelBackgound: Node2D = $LevelBackgound
 @onready var playButton: Button = $VBoxContainer/MarginContainer/VBoxContainer/PlayButton
+@onready var quitButton: Button = $VBoxContainer/MarginContainer/VBoxContainer/QuitButton
 @onready var blackFade: ColorRect = $BlackFade
 
 @onready var playerScene: PackedScene = preload("res://scenes/objects/player.tscn")
+@onready var hardTheme: Theme = preload("res://themes/hard_level_button.tres")
+
+@onready var credit: Label = $Credit
 
 var codes: Dictionary = {
 	"konami": ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"],
-	"all_levels": ["u", "n", "l", "o", "c", "k", "a", "l", "l"]
+	"all_levels": ["u", "n", "l", "o", "c", "k", "a", "l", "l"],
+	"help": ["l", "e", "t", "m", "e", "o", "u", "t"]
 }
 var currentInputs: Dictionary = {
 	"konami": [],
-	"all_levels": []
+	"all_levels": [],
+	"help": []
 }
 var usedCode: Dictionary = {
 	"konami": false,
-	"all_levels": false
+	"all_levels": false,
+	"help": false
 }
 
 var exit: bool = false
@@ -34,22 +41,28 @@ func _ready() -> void:
 
 func _on_play_button_pressed() -> void:
 	GLOBAL.endLevel.disconnect(funcToConnect)
-	GLOBAL.sceneManager.changeScene("res://scenes/menus/level_menu.tscn", "control")
+	if !usedCode["help"]:
+		GLOBAL.sceneManager.changeScene("res://scenes/menus/level_menu.tscn", "control")
+	else:
+		GLOBAL.sceneManager.changeScene("res://scenes/levels/level_-1.tscn", "level")
 
-func _on_button_pressed() -> void:
-	exit = true
+func _on_quit_button_pressed() -> void:
+	if !usedCode["help"]:
+		exit = true
+	else:
+		credit.text = "There are no ways out"
 
 func _process(_delta: float) -> void:
 	for k in codes.keys():
 		for action in InputMap.get_actions():
-			if str(action) in ["left", "right", "up", "down", "a", "b", "u", "n", "l", "o", "c", "k", "a"]:
+			if str(action) in ["left", "right", "up", "down", "a", "b", "u", "n", "l", "o", "c", "k", "a", "e", "t", "m"]:
 				if Input.is_action_just_pressed(action):
 					currentInputs[k].append(str(action))
-			elif Input.is_action_just_pressed(action) && !(str(action) in ["ui_left", "ui_right", "ui_up", "ui_down", "ui_text_caret_left", "ui_text_caret_right", "ui_text_caret_up", "ui_text_caret_down", "start_record"]):
+			elif Input.is_action_just_pressed(action) && !(str(action) in ["ui_left", "ui_right", "ui_up", "ui_down", "ui_text_caret_left", "ui_text_caret_right", "ui_text_caret_up", "ui_text_caret_down", "start_record", "interact"]):
 					currentInputs[k] = []
 		if currentInputs[k] == codes[k] && !usedCode[k]:
+			usedCode[k] = true
 			if k == "konami":
-				usedCode[k] = true
 				var player: CharacterBody2D = playerScene.instantiate()
 				player.JUMP_HEIGHT *= 2
 				player.get_child(0).queue_free()
@@ -57,6 +70,10 @@ func _process(_delta: float) -> void:
 				GLOBAL.startDropping.emit()
 			elif k == "all_levels":
 				GLOBAL.unlockAllLevels()
+			elif k == "help":
+				GLOBAL.sceneManager.ost.stop()
+				playButton.theme = hardTheme
+				quitButton.theme = hardTheme
 		elif currentInputs[k] != codes[k].duplicate().slice(0, currentInputs[k].size()):
 			currentInputs[k] = []
 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cc2osn0oeeob1"]
+[gd_scene load_steps=5 format=3 uid="uid://cc2osn0oeeob1"]
 
 [ext_resource type="Script" uid="uid://prgx1m2ubdav" path="res://scripts/scenemanager.gd" id="1_xerks"]
 [ext_resource type="PackedScene" uid="uid://derc0km2mknmv" path="res://scenes/menus/pause_menu.tscn" id="2_7rx03"]
 [ext_resource type="Theme" uid="uid://cj661i3baqy8q" path="res://themes/level_button.tres" id="2_ppdub"]
+[ext_resource type="AudioStream" uid="uid://bmoiq7hc4fy2g" path="res://assets/audios/ost.wav" id="4_g8n25"]
 
 [node name="Scenemanager" type="Node"]
 process_mode = 1
@@ -60,3 +61,7 @@ theme_override_constants/outline_size = 10
 theme_override_font_sizes/font_size = 32
 text = "00:00.000
 00:00.000"
+
+[node name="Ost" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_g8n25")
+volume_db = -25.0

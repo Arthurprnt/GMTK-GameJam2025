@@ -8,9 +8,11 @@ signal startDropping
 
 var clone: CharacterBody2D
 var currentLevel: int = 1
+var defaultGravity = Vector2(0, ProjectSettings.get_setting("physics/2d/default_gravity"))
 var levelsUnlocked: Array = [1]
+var linesColor: Color = Color("#25acf5")
 var nbCloneAvailable: int = 1
-var nbLevel: int = 6
+var nbLevel: int = 9
 var player: CharacterBody2D
 var sceneManager: Node
 var showTimers: bool = true

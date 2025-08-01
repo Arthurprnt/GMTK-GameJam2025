@@ -14,7 +14,8 @@ class_name Clone
 @onready var landingParticles: CPUParticles2D = $Particles/LandingParticles
 @onready var jumpingParticles: CPUParticles2D = $Particles/JumpingParticles
 
-@onready var landingSoud: AudioStreamPlayer2D = $Sounds/LandingSoud
+@onready var landingSound: AudioStreamPlayer2D = $Sounds/LandingSound
+@onready var spawningSound: AudioStreamPlayer2D = $Sounds/SpawningSound
 
 #======================================== PLAYER CONSTANTS =========================================
 
@@ -63,6 +64,7 @@ var inputsArray: Array = []
 var canMoove: bool = true
 var desiredJump: bool = false
 var holdingCube: bool = false
+var inPulsor: bool = false
 var wasJumpEmulated: bool = false
 var hitFloor: bool = false
 var usedJumpBuffer: bool = false
@@ -72,14 +74,16 @@ var wasOnFloor: bool = false
 var acceleration: float
 var deceleration: float
 var firstRecDir: float
-var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") # Get gravity from project settings (synced with RigidBody nodes)
 var lastNonNullDir: float = 1
+var pulsorYCoord: float
 var turnSpeed: float
 
 # INT
 var selfInd: int
+var pulsorCount: int = 0
 
 # VECTOR
+var gravity: Vector2 = GLOBAL.defaultGravity
 var firstRecPos: Vector2 = Vector2(0, 0)
 var lastVelocity: Vector2 = Vector2(0, 0)
 
@@ -117,6 +121,7 @@ func init(initPos: Vector2, initDir: int, newArr: Array, ind: int) -> void:
 	firstRecDir = initDir
 	await get_tree().create_timer(0.01).timeout
 	visible = true
+	spawningSound.play()
 
 func doAJump() -> void:
 	desiredJump = false
@@ -132,8 +137,11 @@ func doAJump() -> void:
 func movePlayer(delta: float, maxSpeed: float, actionsArr: Array) -> Vector2:
 	var newVelocity: Vector2 = velocity
 	
-	var direction: float = getAxis("move_left", "move_right", actionsArr)
-	var desiredVelocity: float = direction * maxSpeed
+	var horizontalDirection: float = getAxis("move_left", "move_right", actionsArr) if canMoove else 0.0
+	var verticalDirection: float = 1 if isActionEmulated("move_down", actionsArr) && canMoove else 0.0
+	if sign(horizontalDirection) == -1*sign(gravity.x) && gravity.x != 0:
+		horizontalDirection = 0
+	var desiredVelocity: Vector2 = Vector2(horizontalDirection * maxSpeed, verticalDirection)
 	var maxSpeedChange: float
 	
 	if is_on_floor():
@@ -144,15 +152,22 @@ func movePlayer(delta: float, maxSpeed: float, actionsArr: Array) -> Vector2:
 		acceleration = MAX_AIR_ACCELERATION
 		deceleration = MAX_AIR_DECELERATION
 		turnSpeed = AIR_BRAKE
-		newVelocity.y += gravity * delta
-	if direction && sign(direction) != sign(newVelocity.x):
+	if horizontalDirection && sign(horizontalDirection) != sign(newVelocity.x):
 			maxSpeedChange = turnSpeed * delta
-	elif abs(newVelocity.x) < abs(desiredVelocity):
+	elif abs(newVelocity.x) < abs(desiredVelocity.x):
 			maxSpeedChange = acceleration * delta
 	else:
 		maxSpeedChange = deceleration * delta
 	
-	newVelocity.x = move_toward(newVelocity.x, desiredVelocity, maxSpeedChange)
+	newVelocity.x = move_toward(newVelocity.x, desiredVelocity.x, maxSpeedChange)
+	
+	if inPulsor:
+		newVelocity.y += sign(pulsorYCoord - global_position.y) * delta * 5
+	if verticalDirection != 0:
+		newVelocity.y += ProjectSettings.get_setting("physics/2d/default_gravity") * delta * 2
+	
+	newVelocity += gravity * delta
+	
 	return newVelocity
 
 func _ready() -> void:
@@ -239,7 +254,7 @@ func _physics_process(delta: float) -> void:
 					coyoteJumpTimer.start()
 				if (!wasOnFloor && is_on_floor()):
 					GLOBAL.playParticles(landingParticles)
-					landingSoud.play()
+					landingSound.play()
 					if jumpBufferTimer.time_left > 0 && !usedJumpBuffer:
 						doAJump()
 						usedJumpBuffer = true
@@ -262,6 +277,7 @@ func _physics_process(delta: float) -> void:
 			if modulate.a <= 0.01:
 				GLOBAL.createClone(firstRecPos, firstRecDir, inputsArraySave, selfInd)
 				queue_free()
+
 func _on_death_zone_body_entered(body: Node2D) -> void:
 	if body is Cube:
 		kill()

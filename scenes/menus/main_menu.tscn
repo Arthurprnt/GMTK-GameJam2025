@@ -103,7 +103,7 @@ layout_mode = 2
 theme = ExtResource("2_ovrgc")
 text = "Play"
 
-[node name="Button" type="Button" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="VBoxContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 80)
 layout_mode = 2
 theme = ExtResource("2_ovrgc")
@@ -113,6 +113,17 @@ text = "Quit"
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_constants/separation = 325
+
+[node name="Credit" type="Label" parent="."]
+layout_mode = 0
+offset_top = 973.0
+offset_right = 1920.0
+offset_bottom = 1018.0
+theme = ExtResource("2_ovrgc")
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
+text = "Music by Luka"
+horizontal_alignment = 1
 
 [node name="BlackFade" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
@@ -125,4 +136,4 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

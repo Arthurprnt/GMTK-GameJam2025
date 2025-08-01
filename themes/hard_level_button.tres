@@ -1,0 +1,42 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://01hyffa36c8i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3leng"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3leng"]
+bg_color = Color(0.94902, 0.94902, 0.854902, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_68iej"]
+bg_color = Color(0.65098, 0.603922, 0.611765, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.501961, 0.47451, 0.501961, 1)
+corner_radius_top_left = 75
+corner_radius_top_right = 75
+corner_radius_bottom_right = 75
+corner_radius_bottom_left = 75
+
+[resource]
+Button/colors/font_color = Color(0.65098, 0.603922, 0.611765, 1)
+Button/colors/font_focus_color = Color(0.960784, 0.192157, 0.254902, 1)
+Button/colors/font_hover_color = Color(0.960784, 0.192157, 0.254902, 1)
+Button/colors/font_hover_pressed_color = Color(0.960784, 0.192157, 0.254902, 1)
+Button/colors/font_outline_color = Color(0.501961, 0.47451, 0.501961, 1)
+Button/colors/font_pressed_color = Color(0.960784, 0.192157, 0.254902, 1)
+Button/constants/outline_size = 10
+Button/font_sizes/font_size = 50
+Button/styles/focus = SubResource("StyleBoxEmpty_3leng")
+Button/styles/hover = SubResource("StyleBoxFlat_3leng")
+Button/styles/normal = SubResource("StyleBoxFlat_3leng")
+Button/styles/pressed = SubResource("StyleBoxFlat_3leng")
+Label/colors/font_color = Color(0.94902, 0.94902, 0.854902, 1)
+Label/colors/font_outline_color = Color(0.501961, 0.47451, 0.501961, 1)
+Label/constants/line_spacing = -14
+Label/constants/outline_size = 15
+Label/font_sizes/font_size = 64
+Panel/styles/panel = SubResource("StyleBoxFlat_68iej")

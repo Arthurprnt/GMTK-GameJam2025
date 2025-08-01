@@ -19,7 +19,14 @@ var currentState: State = State.NotActivated
 func _ready() -> void:
 	notActivatedPos = global_position
 
+func _draw() -> void:
+	if Input.is_action_pressed("tab"):
+		for es in energySources:
+			draw_line(to_local(global_position), to_local(es.global_position), GLOBAL.linesColor, 1, false)
+
 func _physics_process(delta: float) -> void:
+	queue_redraw()
+	
 	var newState: State = State.Activated
 	for es in energySources:
 		if es.currentState == es.State.NotPressed:

@@ -19,7 +19,7 @@ class_name Player
 
 @onready var playerTraceScene: PackedScene = preload("res://scenes/objects/player_trace.tscn")
 
-@onready var landingSoud: AudioStreamPlayer2D = $Sounds/LandingSoud
+@onready var landingSound: AudioStreamPlayer2D = $Sounds/LandingSound
 
 #===================================================================================================
 
@@ -63,6 +63,7 @@ var inputsArr: Array = []
 var canMoove: bool = true
 var canTrace: bool = true
 var desiredJump: bool = false
+var inPulsor: bool = false
 var hitFloor: bool = false
 var holdingCube: bool = false
 var recording: bool = false
@@ -72,7 +73,7 @@ var usedRecord: bool = true
 # FLOAT
 var acceleration: float
 var deceleration: float
-var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") # Get gravity from project settings (synced with RigidBody nodes)
+var pulsorYCoord: float
 var turnSpeed: float
 
 # INT
@@ -80,8 +81,10 @@ var cloneInd: int = 0
 var firstRecDir: float = 1
 var lastNonNullDir: float = 1
 var maxCloneNumber: int = 1
+var pulsorCount: int = 0
 
 # VECTOR
+var gravity: Vector2 = GLOBAL.defaultGravity
 var respawnPos: Vector2
 var firstRecPos: Vector2 = Vector2(0, 0)
 var lastVelocity: Vector2 = Vector2(0, 0)
@@ -114,8 +117,11 @@ func doAJump() -> void:
 func movePlayer(delta: float, maxSpeed: float) -> Vector2:
 	var newVelocity: Vector2 = velocity
 	
-	var direction: float = Input.get_axis("move_left", "move_right") if canMoove else 0.0
-	var desiredVelocity: float = direction * maxSpeed
+	var horizontalDirection: float = Input.get_axis("move_left", "move_right") if canMoove else 0.0
+	var verticalDirection: float = 1 if Input.is_action_just_pressed("move_down") && canMoove else 0.0
+	if sign(horizontalDirection) == -1*sign(gravity.x) && gravity.x != 0:
+		horizontalDirection = 0
+	var desiredVelocity: Vector2 = Vector2(horizontalDirection * maxSpeed, verticalDirection)
 	var maxSpeedChange: float
 	
 	if is_on_floor():
@@ -126,15 +132,22 @@ func movePlayer(delta: float, maxSpeed: float) -> Vector2:
 		acceleration = MAX_AIR_ACCELERATION
 		deceleration = MAX_AIR_DECELERATION
 		turnSpeed = AIR_BRAKE
-		newVelocity.y += gravity * delta
-	if direction && sign(direction) != sign(newVelocity.x):
+	if horizontalDirection && sign(horizontalDirection) != sign(newVelocity.x):
 			maxSpeedChange = turnSpeed * delta
-	elif abs(newVelocity.x) < abs(desiredVelocity):
+	elif abs(newVelocity.x) < abs(desiredVelocity.x):
 			maxSpeedChange = acceleration * delta
 	else:
 		maxSpeedChange = deceleration * delta
 	
-	newVelocity.x = move_toward(newVelocity.x, desiredVelocity, maxSpeedChange)
+	newVelocity.x = move_toward(newVelocity.x, desiredVelocity.x, maxSpeedChange)
+	
+	if inPulsor:
+		newVelocity.y += sign(pulsorYCoord - global_position.y) * delta * 5
+	if verticalDirection != 0:
+		newVelocity.y += ProjectSettings.get_setting("physics/2d/default_gravity") * delta * 2
+	
+	newVelocity += gravity * delta
+	
 	return newVelocity
 
 #===================================================================================================
@@ -151,12 +164,13 @@ func _process(_delta: float) -> void:
 	
 	if canMoove:
 		if Input.is_action_just_pressed("start_record"):
-			firstRecDir = lastNonNullDir
-			firstRecPos = global_position
-			inputsArr = []
-			usedRecord = false
-			if cloneInd < maxCloneNumber:
-				recording = true
+			if !recording:
+				firstRecDir = lastNonNullDir
+				firstRecPos = global_position
+				inputsArr = []
+				usedRecord = false
+				if cloneInd < maxCloneNumber:
+					recording = true
 		if Input.is_action_just_pressed("activate_clone") && !usedRecord:
 			GLOBAL.killTrace.emit()
 			if cloneInd < maxCloneNumber:
@@ -260,7 +274,7 @@ func _physics_process(delta: float) -> void:
 		coyoteJumpTimer.start()
 	if (!wasOnFloor && is_on_floor()):
 		GLOBAL.playParticles(landingParticles)
-		landingSoud.play()
+		landingSound.play()
 		if jumpBufferTimer.time_left > 0 && !usedJumpBuffer:
 			doAJump()
 			usedJumpBuffer = true
