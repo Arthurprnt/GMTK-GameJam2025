@@ -14,6 +14,8 @@ class_name Clone
 @onready var landingParticles: CPUParticles2D = $Particles/LandingParticles
 @onready var jumpingParticles: CPUParticles2D = $Particles/JumpingParticles
 
+@onready var landingSoud: AudioStreamPlayer2D = $Sounds/LandingSoud
+
 #======================================== PLAYER CONSTANTS =========================================
 
 # CONSTANT
@@ -237,6 +239,7 @@ func _physics_process(delta: float) -> void:
 					coyoteJumpTimer.start()
 				if (!wasOnFloor && is_on_floor()):
 					GLOBAL.playParticles(landingParticles)
+					landingSoud.play()
 					if jumpBufferTimer.time_left > 0 && !usedJumpBuffer:
 						doAJump()
 						usedJumpBuffer = true

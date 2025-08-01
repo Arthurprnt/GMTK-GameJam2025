@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dc3y4lrr4yya0"]
+[gd_scene load_steps=8 format=3 uid="uid://dc3y4lrr4yya0"]
 
 [ext_resource type="Script" uid="uid://csjmfuh7c4t7a" path="res://scripts/objects/clone.gd" id="1_ypstt"]
 [ext_resource type="Texture2D" uid="uid://c2ij6u8kmpnso" path="res://assets/clone.png" id="2_rbuo6"]
+[ext_resource type="AudioStream" uid="uid://bexvsrbflyfnk" path="res://assets/audios/landing.wav" id="3_dllak"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ypstt"]
 size = Vector2(16, 15.9)
@@ -96,5 +97,12 @@ scale_amount_max = 1.8
 scale_amount_curve = SubResource("Curve_lnsh0")
 color = Color(0.94902, 0.94902, 0.854902, 1)
 color_ramp = SubResource("Gradient_dllak")
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="LandingSoud" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("3_dllak")
+volume_db = 1.0
+pitch_scale = 0.8
 
 [connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]
