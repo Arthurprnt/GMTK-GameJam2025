@@ -64,4 +64,4 @@ text = "00:00.000
 
 [node name="Ost" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_g8n25")
-volume_db = -25.0
+volume_db = -30.0

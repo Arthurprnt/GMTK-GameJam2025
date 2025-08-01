@@ -104,7 +104,7 @@ color_ramp = SubResource("Gradient_h5uus")
 
 [node name="LandingSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("3_h5uus")
-volume_db = 1.0
+volume_db = -7.0
 pitch_scale = 0.8
 
 [connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]

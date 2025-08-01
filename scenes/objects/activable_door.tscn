@@ -20,11 +20,11 @@ shape = SubResource("RectangleShape2D_2xw2s")
 
 [node name="OpenningAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_nmhxf")
-volume_db = 18.0
+volume_db = 10.0
 pitch_scale = 1.2
 attenuation = 1.8025
 
 [node name="ClosingAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_yrbtm")
-volume_db = 16.0
+volume_db = 13.0
 pitch_scale = 0.8

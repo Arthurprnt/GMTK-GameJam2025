@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dc3y4lrr4yya0"]
 
 [ext_resource type="Script" uid="uid://csjmfuh7c4t7a" path="res://scripts/objects/clone.gd" id="1_ypstt"]
-[ext_resource type="Texture2D" path="res://assets/clone.png" id="2_rbuo6"]
+[ext_resource type="Texture2D" uid="uid://bb3nb5gyjes4a" path="res://assets/sprites/clone0.png" id="2_fyu1r"]
 [ext_resource type="AudioStream" uid="uid://bexvsrbflyfnk" path="res://assets/audios/landing.wav" id="3_dllak"]
 [ext_resource type="AudioStream" uid="uid://cd0fjguvbj1yf" path="res://assets/audios/clonespawning.wav" id="4_fyu1r"]
 
@@ -26,7 +26,7 @@ collision_mask = 3
 script = ExtResource("1_ypstt")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_rbuo6")
+texture = ExtResource("2_fyu1r")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.05)
@@ -103,12 +103,12 @@ color_ramp = SubResource("Gradient_dllak")
 
 [node name="LandingSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("3_dllak")
-volume_db = 1.0
+volume_db = -7.0
 pitch_scale = 0.8
 
 [node name="SpawningSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("4_fyu1r")
-volume_db = 10.0
+volume_db = 4.0
 pitch_scale = 1.3
 
 [connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]
