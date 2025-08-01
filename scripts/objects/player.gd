@@ -19,6 +19,8 @@ class_name Player
 
 @onready var playerTraceScene: PackedScene = preload("res://scenes/objects/player_trace.tscn")
 
+@onready var landingSoud: AudioStreamPlayer2D = $Sounds/LandingSoud
+
 #===================================================================================================
 
 #======================================== PLAYER CONSTANTS =========================================
@@ -77,6 +79,7 @@ var turnSpeed: float
 var cloneInd: int = 0
 var firstRecDir: float = 1
 var lastNonNullDir: float = 1
+var maxCloneNumber: int = 1
 
 # VECTOR
 var respawnPos: Vector2
@@ -152,11 +155,12 @@ func _process(_delta: float) -> void:
 			firstRecPos = global_position
 			inputsArr = []
 			usedRecord = false
-			if cloneInd < colors.size():
+			if cloneInd < maxCloneNumber:
 				recording = true
 		if Input.is_action_just_pressed("activate_clone") && !usedRecord:
 			GLOBAL.killTrace.emit()
-			if cloneInd < colors.size():
+			if cloneInd < maxCloneNumber:
+				GLOBAL.nbCloneAvailable -= 1
 				recording = false
 				usedRecord = true
 				GLOBAL.createClone(firstRecPos, firstRecDir, inputsArr, cloneInd)
@@ -170,6 +174,7 @@ func _process(_delta: float) -> void:
 				holdedCube.currentState = holdedCube.State.Held
 				holdedCube.hitbox.disabled = true
 			elif object is Bouton:
+				object.pressedAudio.play()
 				object.currentState = object.State.Pressed
 				object.pressedTimer.start()
 		elif (Input.is_action_just_pressed("interact") && holdingCube) || !is_instance_valid(holdedCube):
@@ -255,6 +260,7 @@ func _physics_process(delta: float) -> void:
 		coyoteJumpTimer.start()
 	if (!wasOnFloor && is_on_floor()):
 		GLOBAL.playParticles(landingParticles)
+		landingSoud.play()
 		if jumpBufferTimer.time_left > 0 && !usedJumpBuffer:
 			doAJump()
 			usedJumpBuffer = true

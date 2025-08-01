@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Clone
 
 @onready var sprite: Sprite2D = $Sprite
+@onready var hitbox: CollisionShape2D = $Hitbox
 
 @onready var rotator: Marker2D = $Rotator
 @onready var raycast: RayCast2D = $Rotator/Raycast
@@ -101,7 +102,7 @@ func isActionEmulated(action: String, actionsArr: Array) -> bool:
 
 func init(initPos: Vector2, initDir: int, newArr: Array, ind: int) -> void:
 	selfInd = ind
-	sprite.texture = load("res://assets/clone" + str(ind) + ".png")
+	sprite.texture = load("res://assets/sprites/clone" + str(ind) + ".png")
 	if initDir != 0:
 		if initDir == 1:
 			rotator.rotation_degrees = 0
@@ -181,6 +182,7 @@ func _physics_process(delta: float) -> void:
 						holdedCube.currentState = holdedCube.State.Held
 						holdedCube.hitbox.disabled = true
 					elif object is Bouton:
+						object.pressedAudio.play()
 						object.currentState = object.State.Pressed
 						object.pressedTimer.start()
 				elif (isActionEmulated("interact", actions) && holdingCube) || !is_instance_valid(holdedCube):
@@ -252,6 +254,7 @@ func _physics_process(delta: float) -> void:
 				await get_tree().create_timer(0.2).timeout
 				currentStep = Step.Play
 		Step.Dying:
+			hitbox.disabled = true
 			modulate = Color(1, 1, 1, lerpf(modulate.a, 0, 0.25))
 			if modulate.a <= 0.01:
 				GLOBAL.createClone(firstRecPos, firstRecDir, inputsArraySave, selfInd)

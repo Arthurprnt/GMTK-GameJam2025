@@ -2,6 +2,7 @@ extends StaticBody2D
 class_name Bouton
 
 @export var activeTime: float = 1
+@onready var pressedAudio: AudioStreamPlayer2D = $PressedAudio
 
 @onready var pressedTimer: Timer = $PressedTimer
 

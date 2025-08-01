@@ -5,7 +5,8 @@ extends Node
 @onready var _2dScene: Node2D = $"2dScene"
 @onready var controlScene: Control = $controlScene
 
-@onready var timeLabel: Label = $Overlay/LabelsContainer/Times
+@onready var nbCloneLabel: Label = $Overlay/HBoxContainer/LabelsContainer/NbCloneLabel
+@onready var timeLabel: Label = $Overlay/HBoxContainer/LabelsContainer/Times
 
 var currentSceneType: String = "control"
 var currentSceneName: String
@@ -38,6 +39,7 @@ func changeScene(newScenePath: String, newSceneType: String)-> void:
 			if s != levelScene:
 				s.visible = false
 		levelScene.visible = true
+		GLOBAL.nbCloneAvailable = newScene.cloneNumber
 		if GLOBAL.showTimers:
 			changeTimerLabelsVisibilityTo(true)
 	elif newSceneType == "control":
@@ -63,6 +65,7 @@ func changeScene(newScenePath: String, newSceneType: String)-> void:
 	#print_tree_pretty()
 
 func changeTimerLabelsVisibilityTo(newValue: bool) -> void:
+	nbCloneLabel.visible = newValue
 	timeLabel.visible = newValue
 
 func _ready() -> void:
@@ -70,6 +73,7 @@ func _ready() -> void:
 	changeScene("res://scenes/menus/main_menu.tscn", "control")
 
 func _physics_process(delta: float) -> void:
+	nbCloneLabel.text = "Clone available: " + str(GLOBAL.nbCloneAvailable)
 	if levelScene.get_children().size() > 0:
 		GLOBAL.totalTimeInLevels += delta
 		GLOBAL.timeInCurrentLevel += delta

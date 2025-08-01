@@ -3,6 +3,9 @@ class_name Cube
 
 @onready var hitbox: CollisionShape2D = $Hitbox
 
+@onready var landingParticles: CPUParticles2D = $LandingParticles
+@onready var landingSoud: AudioStreamPlayer2D = $LandingSoud
+
 enum State {
 	Held,
 	NotHeld
@@ -17,10 +20,17 @@ func _physics_process(delta: float) -> void:
 		hitbox.disabled = false
 		currentState = State.NotHeld
 	
+	var wasOnFloor: bool = is_on_floor()
+	
 	match currentState:
 		State.Held:
 			velocity = Vector2(0, 0)
 			global_position = Vector2(helder.global_position.x, helder.global_position.y - 18)
 		State.NotHeld:
 			velocity.y += gravity * delta
+	
 	move_and_slide()
+	
+	if !wasOnFloor && is_on_floor():
+		GLOBAL.playParticles(landingParticles)
+		landingSoud.play()

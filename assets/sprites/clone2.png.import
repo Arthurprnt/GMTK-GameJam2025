@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8ls1bpsvle8r"
-path="res://.godot/imported/cake.png-2f1636406eacb953477e9742d714c05a.ctex"
+uid="uid://bwsxujhxcdnp"
+path="res://.godot/imported/clone2.png-01a9cca5fa35b39251985d7dfc3d6714.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cake.png"
-dest_files=["res://.godot/imported/cake.png-2f1636406eacb953477e9742d714c05a.ctex"]
+source_file="res://assets/sprites/clone2.png"
+dest_files=["res://.godot/imported/clone2.png-01a9cca5fa35b39251985d7dfc3d6714.ctex"]
 
 [params]
 

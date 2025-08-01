@@ -39,7 +39,7 @@ func _on_play_button_pressed() -> void:
 func _on_button_pressed() -> void:
 	exit = true
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	for k in codes.keys():
 		for action in InputMap.get_actions():
 			if str(action) in ["left", "right", "up", "down", "a", "b", "u", "n", "l", "o", "c", "k", "a"]:

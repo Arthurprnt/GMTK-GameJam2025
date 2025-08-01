@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://u1r2u6eqmxdw" path="res://scenes/objects/player.tscn" id="2_bl13t"]
 [ext_resource type="PackedScene" uid="uid://cd75a7g3efvbu" path="res://scenes/objects/pressure_plate.tscn" id="3_iyx0m"]
 [ext_resource type="PackedScene" uid="uid://dinih12o7iku2" path="res://scenes/objects/force_field.tscn" id="6_at5dv"]
-[ext_resource type="Texture2D" uid="uid://bervjb804eiwj" path="res://assets/tile.png" id="6_jcd4p"]
+[ext_resource type="Texture2D" uid="uid://bervjb804eiwj" path="res://assets/sprites/tile.png" id="6_jcd4p"]
 [ext_resource type="PackedScene" uid="uid://5yhfmeciq0bv" path="res://scenes/objects/cube_dispenser.tscn" id="6_lpvoh"]
 [ext_resource type="PackedScene" uid="uid://brujhokdywi1o" path="res://scenes/objects/button.tscn" id="7_at5dv"]
 

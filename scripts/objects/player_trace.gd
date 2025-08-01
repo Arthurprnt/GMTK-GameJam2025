@@ -11,7 +11,7 @@ func init(traceColor: Color, pos: Vector2) -> void:
 func _ready() -> void:
 	GLOBAL.killTrace.connect(func(): queue_free())
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if startProcess:
 		modulate = Color(modulate.r, modulate.g, modulate.b, lerpf(modulate.a, 0, 0.01))
 		if modulate.a <= 0.01:

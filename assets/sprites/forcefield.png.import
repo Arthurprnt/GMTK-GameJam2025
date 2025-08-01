@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvehkec7in34s"
-path="res://.godot/imported/pressurecube.png-92fc1b0eaf05fb289ebe235bb5b6e55d.ctex"
+uid="uid://b7ya1dmbcgvfd"
+path="res://.godot/imported/forcefield.png-fb953df9bc5fb47efcee3f23cfc76d2c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/pressurecube.png"
-dest_files=["res://.godot/imported/pressurecube.png-92fc1b0eaf05fb289ebe235bb5b6e55d.ctex"]
+source_file="res://assets/sprites/forcefield.png"
+dest_files=["res://.godot/imported/forcefield.png-fb953df9bc5fb47efcee3f23cfc76d2c.ctex"]
 
 [params]
 

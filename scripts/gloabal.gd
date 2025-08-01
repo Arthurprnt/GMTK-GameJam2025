@@ -9,6 +9,7 @@ signal startDropping
 var clone: CharacterBody2D
 var currentLevel: int = 1
 var levelsUnlocked: Array = [1]
+var nbCloneAvailable: int = 1
 var nbLevel: int = 6
 var player: CharacterBody2D
 var sceneManager: Node
@@ -17,9 +18,9 @@ var totalTimeInLevels: float = 0
 var timeInCurrentLevel: float = 0
 
 func createClone(firstRecPos: Vector2, firstRecDir: float, inputsArr: Array, ind: int) -> void:
-	var clone: CharacterBody2D = cloneScene.instantiate()
-	GLOBAL.sceneManager.currentScenes["level"].add_child(clone)
-	clone.init(firstRecPos, firstRecDir, inputsArr.duplicate(), ind)
+	var newClone: CharacterBody2D = cloneScene.instantiate()
+	GLOBAL.sceneManager.currentScenes["level"].add_child(newClone)
+	newClone.init(firstRecPos, firstRecDir, inputsArr.duplicate(), ind)
 
 func msToTimer(timeInSeconds: float) -> String:
 	@warning_ignore("integer_division")
@@ -59,7 +60,8 @@ func playParticles(particles: CPUParticles2D) -> void:
 	GLOBAL.sceneManager.currentScenes["level"].add_child(newParticles)
 	newParticles.emitting = true
 	await get_tree().create_timer(newParticles.lifetime + 1).timeout
-	newParticles.queue_free()
+	if is_instance_valid(newParticles):
+		newParticles.queue_free()
 
 func unlockAllLevels() -> void:
 	levelsUnlocked = range(1, nbLevel+1)

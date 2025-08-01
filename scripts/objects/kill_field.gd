@@ -6,6 +6,7 @@ extends Area2D
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var hitbox: CollisionShape2D = $Hitbox
+@onready var particles: CPUParticles2D = $Particles
 
 enum State {
 	Activated,
@@ -22,8 +23,10 @@ func otherState(state: State) -> State:
 func _ready() -> void:
 	sprite.scale.y = height/32
 	hitbox.shape.size = Vector2(3, height)
+	particles.emission_rect_extents = Vector2(6, height/2)
+	particles.amount = int(height * 0.35)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if energySources != []:
 		var newState: State = otherState(defaultState)
 		for es in energySources:
@@ -33,9 +36,11 @@ func _physics_process(delta: float) -> void:
 	
 	match currentState:
 		State.Activated:
+			particles.emitting = true
 			sprite.visible = true
 			hitbox.disabled = false
 		State.NotActivated:
+			particles.emitting = false
 			sprite.visible = false
 			hitbox.disabled = true
 

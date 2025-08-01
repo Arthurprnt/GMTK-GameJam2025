@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bb3nb5gyjes4a"
-path="res://.godot/imported/clone0.png-96fd8e68785eb36ded54a931e7ac9f2f.ctex"
+uid="uid://cqluknc1x0b2r"
+path="res://.godot/imported/killfield.png-400a8942ebf5baab2616aedd6a8c2396.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/clone0.png"
-dest_files=["res://.godot/imported/clone0.png-96fd8e68785eb36ded54a931e7ac9f2f.ctex"]
+source_file="res://assets/sprites/killfield.png"
+dest_files=["res://.godot/imported/killfield.png-400a8942ebf5baab2616aedd6a8c2396.ctex"]
 
 [params]
 

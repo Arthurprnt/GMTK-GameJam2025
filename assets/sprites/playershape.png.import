@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6wcebmebqngt"
-path="res://.godot/imported/pressureplate.png-0ff83784dacffc402605311d9da8b047.ctex"
+uid="uid://dcqb8nr0lwp4b"
+path="res://.godot/imported/playershape.png-50281c70fd13a5a1ac65d02d6ac83bdc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/pressureplate.png"
-dest_files=["res://.godot/imported/pressureplate.png-0ff83784dacffc402605311d9da8b047.ctex"]
+source_file="res://assets/sprites/playershape.png"
+dest_files=["res://.godot/imported/playershape.png-50281c70fd13a5a1ac65d02d6ac83bdc.ctex"]
 
 [params]
 

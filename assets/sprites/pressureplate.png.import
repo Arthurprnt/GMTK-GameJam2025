@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bervjb804eiwj"
-path="res://.godot/imported/tile.png-455dd1073ac41712b0ee435e5393be66.ctex"
+uid="uid://b6wcebmebqngt"
+path="res://.godot/imported/pressureplate.png-1c7a30e0df5e218d56eeb8a8fd64a920.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tile.png"
-dest_files=["res://.godot/imported/tile.png-455dd1073ac41712b0ee435e5393be66.ctex"]
+source_file="res://assets/sprites/pressureplate.png"
+dest_files=["res://.godot/imported/pressureplate.png-1c7a30e0df5e218d56eeb8a8fd64a920.ctex"]
 
 [params]
 

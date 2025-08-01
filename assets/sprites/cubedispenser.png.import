@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcqb8nr0lwp4b"
-path="res://.godot/imported/playershape.png-d4ad6622fa5aae545aab8f186062e499.ctex"
+uid="uid://chfcxcni64tcs"
+path="res://.godot/imported/cubedispenser.png-81ca84a191670dbab5503197a0711f61.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/playershape.png"
-dest_files=["res://.godot/imported/playershape.png-d4ad6622fa5aae545aab8f186062e499.ctex"]
+source_file="res://assets/sprites/cubedispenser.png"
+dest_files=["res://.godot/imported/cubedispenser.png-81ca84a191670dbab5503197a0711f61.ctex"]
 
 [params]
 
