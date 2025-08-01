@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://623858nrew31" path="res://scripts/levels/level.gd" id="1_osc7o"]
 [ext_resource type="PackedScene" uid="uid://u1r2u6eqmxdw" path="res://scenes/objects/player.tscn" id="2_wjk5u"]
-[ext_resource type="Texture2D" uid="uid://bervjb804eiwj" path="res://assets/tile.png" id="3_xy1qu"]
+[ext_resource type="Texture2D" uid="uid://bervjb804eiwj" path="res://assets/sprites/tile.png" id="3_xy1qu"]
+
 
 [sub_resource type="Gradient" id="Gradient_at5dv"]
 offsets = PackedFloat32Array(0.524096)

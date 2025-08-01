@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=4 uid="uid://7b3x53jw1py0"]
 
 [ext_resource type="Script" uid="uid://y1ge41nxgf6" path="res://scripts/menus/main_menu.gd" id="1_xqga4"]
-[ext_resource type="Texture2D" uid="uid://bervjb804eiwj" path="res://assets/tile.png" id="2_2o76q"]
+[ext_resource type="Texture2D" uid="uid://bervjb804eiwj" path="res://assets/sprites/tile.png" id="2_2o76q"]
 [ext_resource type="Theme" uid="uid://cj661i3baqy8q" path="res://themes/level_button.tres" id="2_ovrgc"]
 [ext_resource type="PackedScene" uid="uid://cq4w7f66npi7m" path="res://scenes/objects/activable_door.tscn" id="3_6bivr"]
 [ext_resource type="PackedScene" uid="uid://cd75a7g3efvbu" path="res://scenes/objects/pressure_plate.tscn" id="3_ng0o5"]

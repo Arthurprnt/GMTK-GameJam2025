@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://rqwsubkt2nyi"]
+[gd_scene load_steps=5 format=3 uid="uid://rqwsubkt2nyi"]
 
 [ext_resource type="Script" uid="uid://bexgyv5lximvh" path="res://scripts/objects/level_orb.gd" id="1_gdb0u"]
-[ext_resource type="Texture2D" uid="uid://c8ls1bpsvle8r" path="res://assets/cake.png" id="2_7p1ja"]
+[ext_resource type="Texture2D" uid="uid://c8ls1bpsvle8r" path="res://assets/sprites/cake.png" id="2_7p1ja"]
+[ext_resource type="AudioStream" uid="uid://2uctyh1aq4dp" path="res://assets/audios/levelfinished.wav" id="3_ichh8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yk6mf"]
 radius = 8.0
@@ -14,5 +15,10 @@ texture = ExtResource("2_7p1ja")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_yk6mf")
+
+[node name="OrbAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ichh8")
+volume_db = 5.0
+pitch_scale = 0.9
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

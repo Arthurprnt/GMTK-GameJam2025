@@ -34,11 +34,25 @@ grow_vertical = 2
 
 [node name="Overlay" type="CanvasLayer" parent="."]
 
-[node name="LabelsContainer" type="VBoxContainer" parent="Overlay"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Overlay"]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Times" type="Label" parent="Overlay/LabelsContainer"]
+[node name="HSeparator" type="HSeparator" parent="Overlay/HBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="LabelsContainer" type="VBoxContainer" parent="Overlay/HBoxContainer"]
+layout_mode = 2
+
+[node name="NbCloneLabel" type="Label" parent="Overlay/HBoxContainer/LabelsContainer"]
+layout_mode = 2
+theme = ExtResource("2_ppdub")
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
+text = "Clone available: 1"
+
+[node name="Times" type="Label" parent="Overlay/HBoxContainer/LabelsContainer"]
 layout_mode = 2
 theme = ExtResource("2_ppdub")
 theme_override_constants/line_spacing = -12

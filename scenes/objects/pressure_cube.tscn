@@ -1,10 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://da4s0n62xkyfq"]
+[gd_scene load_steps=7 format=3 uid="uid://da4s0n62xkyfq"]
 
 [ext_resource type="Script" uid="uid://f6oym5h8vtur" path="res://scripts/objects/pressure_cube.gd" id="1_ltpec"]
-[ext_resource type="Texture2D" uid="uid://dvehkec7in34s" path="res://assets/pressurecube.png" id="2_u25mc"]
+[ext_resource type="Texture2D" uid="uid://dvehkec7in34s" path="res://assets/sprites/pressurecube.png" id="2_u25mc"]
+[ext_resource type="AudioStream" uid="uid://bexvsrbflyfnk" path="res://assets/audios/landing.wav" id="3_avxit"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ltpec"]
 size = Vector2(16, 16)
+
+[sub_resource type="Curve" id="Curve_6u7g0"]
+_data = [Vector2(0, 0.489017), 0.0, 0.0, 0, 0, Vector2(0.50303, 0.812139), 0.0, 0.0, 0, 0, Vector2(0.912121, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_avxit"]
+offsets = PackedFloat32Array(0.544304, 1)
+colors = PackedColorArray(0.94902, 0.94902, 0.854902, 1, 1, 1, 1, 0)
 
 [node name="PressureCube" type="CharacterBody2D"]
 collision_layer = 11
@@ -16,3 +25,26 @@ texture = ExtResource("2_u25mc")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ltpec")
+
+[node name="LandingParticles" type="CPUParticles2D" parent="."]
+position = Vector2(0, 8)
+emitting = false
+amount = 12
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(8, 1)
+direction = Vector2(0, -1)
+spread = 28.0
+gravity = Vector2(0, 50)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+scale_amount_min = 1.5
+scale_amount_max = 1.8
+scale_amount_curve = SubResource("Curve_6u7g0")
+color = Color(0.94902, 0.94902, 0.854902, 1)
+color_ramp = SubResource("Gradient_avxit")
+
+[node name="LandingSoud" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_avxit")

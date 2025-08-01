@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://u1r2u6eqmxdw"]
+[gd_scene load_steps=8 format=3 uid="uid://u1r2u6eqmxdw"]
 
 [ext_resource type="Script" uid="uid://b0tt2ri0aeak4" path="res://scripts/objects/player.gd" id="1_3vyb7"]
-[ext_resource type="Texture2D" uid="uid://08j42dfo7o1t" path="res://assets/player.png" id="2_g2els"]
+[ext_resource type="Texture2D" uid="uid://08j42dfo7o1t" path="res://assets/sprites/player.png" id="2_g2els"]
+[ext_resource type="AudioStream" uid="uid://bexvsrbflyfnk" path="res://assets/audios/landing.wav" id="3_h5uus"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u8vuu"]
-size = Vector2(16, 16)
+size = Vector2(16, 15.9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
 size = Vector2(16, 1)
@@ -29,6 +30,7 @@ zoom = Vector2(3.5, 3.5)
 texture = ExtResource("2_g2els")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.05)
 shape = SubResource("RectangleShape2D_u8vuu")
 
 [node name="DeathZone" type="Area2D" parent="."]
@@ -42,7 +44,7 @@ shape = SubResource("RectangleShape2D_g2els")
 [node name="Rotator" type="Marker2D" parent="."]
 
 [node name="Raycast" type="RayCast2D" parent="Rotator"]
-target_position = Vector2(24, 0)
+target_position = Vector2(16, 0)
 collision_mask = 8
 
 [node name="ReleasePoint" type="Node2D" parent="Rotator"]
@@ -97,5 +99,10 @@ scale_amount_max = 1.8
 scale_amount_curve = SubResource("Curve_2147m")
 color = Color(0.94902, 0.94902, 0.854902, 1)
 color_ramp = SubResource("Gradient_h5uus")
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="LandingSoud" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("3_h5uus")
 
 [connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]

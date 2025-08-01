@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c2ij6u8kmpnso" path="res://assets/clone.png" id="2_rbuo6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ypstt"]
-size = Vector2(16, 16)
+size = Vector2(16, 15.9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rbuo6"]
 size = Vector2(16, 1)
@@ -27,6 +27,7 @@ script = ExtResource("1_ypstt")
 texture = ExtResource("2_rbuo6")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.05)
 shape = SubResource("RectangleShape2D_ypstt")
 
 [node name="DeathZone" type="Area2D" parent="."]
@@ -40,7 +41,7 @@ shape = SubResource("RectangleShape2D_rbuo6")
 [node name="Rotator" type="Marker2D" parent="."]
 
 [node name="Raycast" type="RayCast2D" parent="Rotator"]
-target_position = Vector2(22, 0)
+target_position = Vector2(16, 0)
 collision_mask = 8
 
 [node name="ReleasePoint" type="Node2D" parent="Rotator"]

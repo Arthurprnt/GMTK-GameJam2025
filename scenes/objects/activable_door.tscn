@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cq4w7f66npi7m"]
+[gd_scene load_steps=6 format=3 uid="uid://cq4w7f66npi7m"]
 
 [ext_resource type="Script" uid="uid://f30rcmb4no5e" path="res://scripts/objects/activable_door.gd" id="1_0tu70"]
-[ext_resource type="Texture2D" uid="uid://dyx6jpfbuu5o2" path="res://assets/activabledoor.png" id="2_g55wr"]
+[ext_resource type="Texture2D" uid="uid://dyx6jpfbuu5o2" path="res://assets/sprites/activabledoor.png" id="2_g55wr"]
+[ext_resource type="AudioStream" uid="uid://1ob1ev1yoy8o" path="res://assets/audios/dooropening.wav" id="3_nmhxf"]
+[ext_resource type="AudioStream" uid="uid://1c7ucxxxvl5y" path="res://assets/audios/doorclosing.wav" id="4_yrbtm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2xw2s"]
 size = Vector2(16, 48)
@@ -15,3 +17,13 @@ texture = ExtResource("2_g55wr")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_2xw2s")
+
+[node name="OpenningAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_nmhxf")
+volume_db = 7.0
+pitch_scale = 0.75
+
+[node name="ClosingAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_yrbtm")
+volume_db = 6.0
+pitch_scale = 0.8

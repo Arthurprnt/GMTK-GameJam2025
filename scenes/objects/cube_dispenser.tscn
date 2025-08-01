@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://5yhfmeciq0bv"]
 
 [ext_resource type="Script" uid="uid://dqpqo6m0e5mlu" path="res://scripts/objects/cube_dispenser.gd" id="1_1ij5f"]
-[ext_resource type="Texture2D" uid="uid://chfcxcni64tcs" path="res://assets/cubedispenser.png" id="2_42c64"]
+[ext_resource type="Texture2D" uid="uid://chfcxcni64tcs" path="res://assets/sprites/cubedispenser.png" id="2_42c64"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k8lxi"]
 size = Vector2(32, 16)
