@@ -1,17 +1,25 @@
 extends Node
 
 signal endLevel
+signal killTrace
 signal startDropping
+
+@onready var cloneScene: PackedScene = preload("res://scenes/objects/clone.tscn")
 
 var clone: CharacterBody2D
 var currentLevel: int = 1
-var levelsUnlocked: Array[int] = [1]
+var levelsUnlocked: Array = [1]
 var nbLevel: int = 6
 var player: CharacterBody2D
 var sceneManager: Node
 var showTimers: bool = true
 var totalTimeInLevels: float = 0
 var timeInCurrentLevel: float = 0
+
+func createClone(firstRecPos: Vector2, firstRecDir: float, inputsArr: Array, ind: int) -> void:
+	var clone: CharacterBody2D = cloneScene.instantiate()
+	GLOBAL.sceneManager.currentScenes["level"].add_child(clone)
+	clone.init(firstRecPos, firstRecDir, inputsArr.duplicate(), ind)
 
 func msToTimer(timeInSeconds: float) -> String:
 	@warning_ignore("integer_division")
@@ -43,3 +51,15 @@ func msToTimer(timeInSeconds: float) -> String:
 		return "%s:%s:%s.%s" % [strHours, strMinutes, strSeconds, strMs]
 	else:
 		return "%s:%s.%s" % [strMinutes, strSeconds, strMs]
+
+func playParticles(particles: CPUParticles2D) -> void:
+	# Allow to bypass the lifetime wait time before the particles can start to play again
+	var newParticles: CPUParticles2D = particles.duplicate()
+	newParticles.global_position = particles.global_position
+	GLOBAL.sceneManager.currentScenes["level"].add_child(newParticles)
+	newParticles.emitting = true
+	await get_tree().create_timer(newParticles.lifetime + 1).timeout
+	newParticles.queue_free()
+
+func unlockAllLevels() -> void:
+	levelsUnlocked = range(1, nbLevel+1)

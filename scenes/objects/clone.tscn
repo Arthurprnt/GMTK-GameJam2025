@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dc3y4lrr4yya0"]
+[gd_scene load_steps=7 format=3 uid="uid://dc3y4lrr4yya0"]
 
 [ext_resource type="Script" uid="uid://csjmfuh7c4t7a" path="res://scripts/objects/clone.gd" id="1_ypstt"]
 [ext_resource type="Texture2D" uid="uid://c2ij6u8kmpnso" path="res://assets/clone.png" id="2_rbuo6"]
@@ -9,8 +9,16 @@ size = Vector2(16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rbuo6"]
 size = Vector2(16, 1)
 
+[sub_resource type="Curve" id="Curve_lnsh0"]
+_data = [Vector2(0, 0.489017), 0.0, 0.0, 0, 0, Vector2(0.50303, 0.812139), 0.0, 0.0, 0, 0, Vector2(0.912121, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_dllak"]
+offsets = PackedFloat32Array(0.544304, 1)
+colors = PackedColorArray(0.94902, 0.94902, 0.854902, 1, 1, 1, 1, 0)
+
 [node name="Clone" type="CharacterBody2D"]
-visible = false
+modulate = Color(1, 1, 1, 0)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_ypstt")
@@ -45,5 +53,47 @@ one_shot = true
 [node name="JumpBufferTimer" type="Timer" parent="."]
 wait_time = 0.088
 one_shot = true
+
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="LandingParticles" type="CPUParticles2D" parent="Particles"]
+position = Vector2(0, 8)
+emitting = false
+amount = 12
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(8, 1)
+direction = Vector2(0, -1)
+spread = 28.0
+gravity = Vector2(0, 50)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+scale_amount_min = 1.5
+scale_amount_max = 1.8
+scale_amount_curve = SubResource("Curve_lnsh0")
+color = Color(0.94902, 0.94902, 0.854902, 1)
+color_ramp = SubResource("Gradient_dllak")
+
+[node name="JumpingParticles" type="CPUParticles2D" parent="Particles"]
+position = Vector2(0, 8)
+emitting = false
+amount = 12
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(8, 1)
+direction = Vector2(0, -1)
+spread = 28.0
+gravity = Vector2(0, 50)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+scale_amount_min = 1.5
+scale_amount_max = 1.8
+scale_amount_curve = SubResource("Curve_lnsh0")
+color = Color(0.94902, 0.94902, 0.854902, 1)
+color_ramp = SubResource("Gradient_dllak")
 
 [connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]

@@ -1,12 +1,17 @@
 extends CharacterBody2D
 class_name Clone
 
+@onready var sprite: Sprite2D = $Sprite
+
 @onready var rotator: Marker2D = $Rotator
 @onready var raycast: RayCast2D = $Rotator/Raycast
 @onready var releasePoint: Node2D = $Rotator/ReleasePoint
 
 @onready var coyoteJumpTimer: Timer = $CoyoteJumpTimer
 @onready var jumpBufferTimer: Timer = $JumpBufferTimer
+
+@onready var landingParticles: CPUParticles2D = $Particles/LandingParticles
+@onready var jumpingParticles: CPUParticles2D = $Particles/JumpingParticles
 
 #======================================== PLAYER CONSTANTS =========================================
 
@@ -36,30 +41,40 @@ enum State {
 var currentState: State = State.Idle
 var prevState: State = State.Idle
 
+enum Step {
+	Spawning,
+	Play,
+	Dying
+}
+var currentStep: Step = Step.Spawning
+
 #===================================================================================================
 
 #======================================== GLOBAL VARIABLES =========================================
 
 # ARRAY
+var inputsArraySave: Array = []
 var inputsArray: Array = []
 
 # BOOL
 var canMoove: bool = true
-var canStart: bool = false
 var desiredJump: bool = false
 var holdingCube: bool = false
 var wasJumpEmulated: bool = false
 var hitFloor: bool = false
 var usedJumpBuffer: bool = false
+var wasOnFloor: bool = false
 
 # FLOAT
 var acceleration: float
 var deceleration: float
+var firstRecDir: float
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") # Get gravity from project settings (synced with RigidBody nodes)
+var lastNonNullDir: float = 1
 var turnSpeed: float
 
 # INT
-var lastNonNullDir: float = 1
+var selfInd: int
 
 # VECTOR
 var firstRecPos: Vector2 = Vector2(0, 0)
@@ -71,7 +86,7 @@ var holdedCube: CharacterBody2D
 #===================================================================================================
 
 func kill() -> void:
-	queue_free()
+	currentStep = Step.Dying
 
 func getAxis(leftAction: String, rightAction: String, actionsArr: Array) -> int:
 	var dir: int = 0
@@ -84,21 +99,26 @@ func getAxis(leftAction: String, rightAction: String, actionsArr: Array) -> int:
 func isActionEmulated(action: String, actionsArr: Array) -> bool:
 	return (action in actionsArr)
 
-func init(initPos: Vector2, initDir: int, newArr: Array) -> void:
+func init(initPos: Vector2, initDir: int, newArr: Array, ind: int) -> void:
+	selfInd = ind
+	sprite.texture = load("res://assets/clone" + str(ind) + ".png")
 	if initDir != 0:
 		if initDir == 1:
 			rotator.rotation_degrees = 0
 		else:
 			rotator.rotation_degrees = 180
 	global_position = initPos
-	inputsArray = newArr
+	inputsArraySave = newArr
+	inputsArray = inputsArraySave.duplicate()
+	firstRecPos = initPos
+	firstRecDir = initDir
 	await get_tree().create_timer(0.01).timeout
 	visible = true
-	canStart = true
 
 func doAJump() -> void:
 	desiredJump = false
 	if (is_on_floor() || coyoteJumpTimer.time_left > 0):
+		GLOBAL.playParticles(jumpingParticles)
 		velocity.y = -JUMP_HEIGHT * 1.15
 		currentState = State.Jump
 	# For the jump buffer
@@ -136,90 +156,106 @@ func _ready() -> void:
 	GLOBAL.clone = self
 
 func _physics_process(delta: float) -> void:
-	if canStart:
-		if inputsArray != []:
-			var actions: Array = inputsArray.pop_front()
-			var wasOnFloor: bool = is_on_floor()
-			
-			var horizontalDirection: float = getAxis("move_left", "move_right", actions)
-			
-			if horizontalDirection != 0 && canMoove:
-				if horizontalDirection == 1:
-					rotator.rotation_degrees = 0
-				else:
-					rotator.rotation_degrees = 180
-				lastNonNullDir = horizontalDirection
-			lastVelocity = velocity
-			
-			if isActionEmulated("interact", actions) && raycast.is_colliding():
-				var object: Node2D = raycast.get_collider()
-				if object is Cube && !holdingCube:
-					holdingCube = true
-					holdedCube = object
-					holdedCube.helder = self
-					holdedCube.currentState = holdedCube.State.Held
-					holdedCube.hitbox.disabled = true
-				elif object is Bouton:
-					object.currentState = object.State.Pressed
-					object.pressedTimer.start()
-			elif (isActionEmulated("interact", actions) && holdingCube) || !is_instance_valid(holdedCube):
-				holdingCube = false
-				if is_instance_valid(holdedCube):
-					holdedCube.currentState = holdedCube.State.NotHeld
-					holdedCube.global_position = releasePoint.global_position
-					holdedCube.helder = null
-					holdedCube.hitbox.disabled = false
-			if isActionEmulated("jump", actions):
-				desiredJump = true
-			elif !isActionEmulated("jump", actions) && wasJumpEmulated && currentState == State.Jump:
-				velocity.y /= 3.5
-			
-			match currentState:
-				State.Idle:
-					velocity = Vector2(0, 0)
-					
-					if desiredJump:
-						doAJump()
-					elif horizontalDirection != 0 && is_on_floor() && canMoove:
-						currentState = State.Walk
-					elif !is_on_floor():
-						currentState = State.Fall
-				State.Fall:
-					velocity = movePlayer(delta, MAX_WALKING_SPEED, actions)
-					
-					if desiredJump:
-						doAJump()
-					elif is_on_floor():
-						if velocity.x != 0:
+	match currentStep:
+		Step.Play:
+			if inputsArray != []:
+				var actions: Array = inputsArray.pop_front()
+				wasOnFloor = is_on_floor()
+				
+				var horizontalDirection: float = getAxis("move_left", "move_right", actions)
+				
+				if horizontalDirection != 0 && canMoove:
+					if horizontalDirection == 1:
+						rotator.rotation_degrees = 0
+					else:
+						rotator.rotation_degrees = 180
+					lastNonNullDir = horizontalDirection
+				lastVelocity = velocity
+				
+				if isActionEmulated("interact", actions) && raycast.is_colliding():
+					var object: Node2D = raycast.get_collider()
+					if object is Cube && !holdingCube:
+						holdingCube = true
+						holdedCube = object
+						holdedCube.helder = self
+						holdedCube.currentState = holdedCube.State.Held
+						holdedCube.hitbox.disabled = true
+					elif object is Bouton:
+						object.currentState = object.State.Pressed
+						object.pressedTimer.start()
+				elif (isActionEmulated("interact", actions) && holdingCube) || !is_instance_valid(holdedCube):
+					holdingCube = false
+					if is_instance_valid(holdedCube):
+						holdedCube.currentState = holdedCube.State.NotHeld
+						holdedCube.global_position = releasePoint.global_position
+						holdedCube.helder = null
+						holdedCube.hitbox.disabled = false
+				if isActionEmulated("jump", actions):
+					desiredJump = true
+				elif !isActionEmulated("jump", actions) && wasJumpEmulated && currentState == State.Jump:
+					velocity.y /= 3.5
+				
+				match currentState:
+					State.Idle:
+						velocity = Vector2(0, 0)
+						
+						if desiredJump:
+							doAJump()
+						elif horizontalDirection != 0 && is_on_floor() && canMoove:
 							currentState = State.Walk
-						else:
+						elif !is_on_floor():
+							currentState = State.Fall
+					State.Fall:
+						velocity = movePlayer(delta, MAX_WALKING_SPEED, actions)
+						
+						if desiredJump:
+							doAJump()
+						elif is_on_floor():
+							if velocity.x != 0:
+								currentState = State.Walk
+							else:
+								currentState = State.Idle
+					State.Walk:
+						velocity = movePlayer(delta, MAX_WALKING_SPEED, actions)
+						if desiredJump:
+							doAJump()
+						elif !is_on_floor():
+							currentState = State.Fall
+						elif velocity.x == 0:
 							currentState = State.Idle
-				State.Walk:
-					velocity = movePlayer(delta, MAX_WALKING_SPEED, actions)
-					if desiredJump:
+					State.Jump:
+						velocity = movePlayer(delta, MAX_WALKING_SPEED, actions)
+						
+						if velocity.y > 0:
+							currentState = State.Fall
+						
+				move_and_slide()
+		
+				if wasOnFloor && !is_on_floor() && velocity.y >= 0:
+					coyoteJumpTimer.start()
+				if (!wasOnFloor && is_on_floor()):
+					GLOBAL.playParticles(landingParticles)
+					if jumpBufferTimer.time_left > 0 && !usedJumpBuffer:
 						doAJump()
-					elif !is_on_floor():
-						currentState = State.Fall
-					elif velocity.x == 0:
-						currentState = State.Idle
-				State.Jump:
-					velocity = movePlayer(delta, MAX_WALKING_SPEED, actions)
-					
-					if velocity.y > 0:
-						currentState = State.Fall
-					
+						usedJumpBuffer = true
+				wasJumpEmulated = isActionEmulated("jump", actions)
+			else:
+				await get_tree().create_timer(0.2).timeout
+				kill()
+		Step.Spawning:
+			wasOnFloor = is_on_floor()
+			movePlayer(delta, 0, [])
 			move_and_slide()
-	
-			if wasOnFloor && !is_on_floor() && velocity.y >= 0:
-				coyoteJumpTimer.start()
-			if (!wasOnFloor && is_on_floor()):
-				if jumpBufferTimer.time_left > 0 && !usedJumpBuffer:
-					doAJump()
-					usedJumpBuffer = true
-			wasJumpEmulated = isActionEmulated("jump", actions)
-		else:
-			queue_free()
-
+			
+			modulate = Color(1, 1, 1, lerpf(modulate.a, 1, 0.25))
+			if modulate.a >= 0.99:
+				await get_tree().create_timer(0.2).timeout
+				currentStep = Step.Play
+		Step.Dying:
+			modulate = Color(1, 1, 1, lerpf(modulate.a, 0, 0.25))
+			if modulate.a <= 0.01:
+				GLOBAL.createClone(firstRecPos, firstRecDir, inputsArraySave, selfInd)
+				queue_free()
 func _on_death_zone_body_entered(body: Node2D) -> void:
 	if body is Cube:
 		kill()

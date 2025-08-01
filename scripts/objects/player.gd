@@ -14,7 +14,10 @@ class_name Player
 @onready var coyoteJumpTimer: Timer = $CoyoteJumpTimer
 @onready var jumpBufferTimer: Timer = $JumpBufferTimer
 
-@onready var cloneScene: PackedScene = preload("res://scenes/objects/clone.tscn")
+@onready var landingParticles: CPUParticles2D = $Particles/LandingParticles
+@onready var jumpingParticles: CPUParticles2D = $Particles/JumpingParticles
+
+@onready var playerTraceScene: PackedScene = preload("res://scenes/objects/player_trace.tscn")
 
 #===================================================================================================
 
@@ -51,13 +54,16 @@ var prevState: State = State.Idle
 #======================================== GLOBAL VARIABLES =========================================
 
 # ARRAY
+var colors = [Color("#f58122"), Color("#55b33b"), Color("#a35dd9")]
 var inputsArr: Array = []
 
 # BOOL
 var canMoove: bool = true
+var canTrace: bool = true
 var desiredJump: bool = false
 var hitFloor: bool = false
 var holdingCube: bool = false
+var recording: bool = false
 var usedJumpBuffer: bool = false
 var usedRecord: bool = true
 
@@ -68,6 +74,7 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") #
 var turnSpeed: float
 
 # INT
+var cloneInd: int = 0
 var firstRecDir: float = 1
 var lastNonNullDir: float = 1
 
@@ -85,11 +92,6 @@ var holdedCube: CharacterBody2D = null
 
 # UTILITY
 
-func createClone() -> void:
-	var clone: CharacterBody2D = cloneScene.instantiate()
-	GLOBAL.sceneManager.currentScenes["level"].add_child(clone)
-	clone.init(firstRecPos, firstRecDir, inputsArr.duplicate())
-
 func kill() -> void:
 	GLOBAL.sceneManager.changeScene("res://scenes/levels/level_" + str(GLOBAL.currentLevel) + ".tscn", "level")
 
@@ -98,6 +100,7 @@ func kill() -> void:
 func doAJump() -> void:
 	desiredJump = false
 	if (is_on_floor() || coyoteJumpTimer.time_left > 0):
+		GLOBAL.playParticles(jumpingParticles)
 		velocity.y = -JUMP_HEIGHT * 1.15
 		currentState = State.Jump
 	# For the jump buffer
@@ -149,9 +152,15 @@ func _process(_delta: float) -> void:
 			firstRecPos = global_position
 			inputsArr = []
 			usedRecord = false
+			if cloneInd < colors.size():
+				recording = true
 		if Input.is_action_just_pressed("activate_clone") && !usedRecord:
-			usedRecord = true
-			createClone()
+			GLOBAL.killTrace.emit()
+			if cloneInd < colors.size():
+				recording = false
+				usedRecord = true
+				GLOBAL.createClone(firstRecPos, firstRecDir, inputsArr, cloneInd)
+				cloneInd += 1
 		if Input.is_action_just_pressed("interact") && raycast.is_colliding():
 			var object: Node2D = raycast.get_collider()
 			if object is Cube && !holdingCube:
@@ -185,6 +194,14 @@ func _physics_process(delta: float) -> void:
 			if Input.is_action_just_pressed(action):
 				currActions.append(str(action))
 	inputsArr.append(currActions)
+	
+	if recording && canTrace:
+		canTrace = false
+		var newTrace = playerTraceScene.instantiate()
+		GLOBAL.sceneManager.currentScenes["level"].add_child(newTrace)
+		newTrace.init(colors[cloneInd], global_position)
+		await get_tree().create_timer(0.5).timeout
+		canTrace = true
 	
 	var horizontalDirection: float = Input.get_axis("move_left", "move_right")
 	var _verticalDirection: float = Input.get_axis("move_up", "move_down")
@@ -237,6 +254,7 @@ func _physics_process(delta: float) -> void:
 	if wasOnFloor && !is_on_floor() && velocity.y >= 0:
 		coyoteJumpTimer.start()
 	if (!wasOnFloor && is_on_floor()):
+		GLOBAL.playParticles(landingParticles)
 		if jumpBufferTimer.time_left > 0 && !usedJumpBuffer:
 			doAJump()
 			usedJumpBuffer = true
