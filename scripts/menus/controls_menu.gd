@@ -6,4 +6,4 @@ func _ready() -> void:
 	closeButton.grab_focus()
 
 func _on_close_button_pressed() -> void:
-	GLOBAL.sceneManager.changeScene("res://scenes/menus/main_menu.tscn", "control")
+	GLOBAL.sceneManager.changeScene("res://scenes/menus/options_menu.tscn", "control")

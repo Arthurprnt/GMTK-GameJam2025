@@ -3,7 +3,7 @@ extends Control
 @onready var spawnPos: Node2D = $LevelBackgound/SpawnPos
 @onready var levelBackgound: Node2D = $LevelBackgound
 @onready var playButton: Button = $VBoxContainer/MarginContainer/VBoxContainer/PlayButton
-@onready var controlsButton: Button = $VBoxContainer/MarginContainer/VBoxContainer/ControlsButton
+@onready var optionsButton: Button = $VBoxContainer/MarginContainer/VBoxContainer/OptionsButton
 @onready var quitButton: Button = $VBoxContainer/MarginContainer/VBoxContainer/QuitButton
 @onready var blackFade: ColorRect = $BlackFade
 
@@ -53,12 +53,11 @@ func _on_play_button_pressed() -> void:
 		GLOBAL.sceneManager.changeTimerLabelsVisibilityTo(false)
 		GLOBAL.sceneManager.ost.stop()
 
-func _on_controls_button_pressed() -> void:
+func _on_options_button_pressed() -> void:
 	if !usedCode["help"]:
-		GLOBAL.sceneManager.changeScene("res://scenes/menus/controls_menu.tscn", "control")
+		GLOBAL.sceneManager.changeScene("res://scenes/menus/options_menu.tscn", "control")
 	else:
-		credit.text = "You lost it"
-
+		credit.text = "Don't try to escape"
 
 func _on_quit_button_pressed() -> void:
 	if !usedCode["help"]:
@@ -88,7 +87,7 @@ func _process(_delta: float) -> void:
 			elif k == "help":
 				GLOBAL.sceneManager.ost.stop()
 				playButton.theme = hardTheme
-				controlsButton.theme = hardTheme
+				optionsButton.theme = hardTheme
 				quitButton.theme = hardTheme
 		elif currentInputs[k] != codes[k].duplicate().slice(0, currentInputs[k].size()):
 			currentInputs[k] = []

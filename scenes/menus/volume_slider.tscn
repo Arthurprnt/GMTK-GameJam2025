@@ -8,5 +8,5 @@ offset_right = 8.0
 offset_bottom = 16.0
 theme = ExtResource("1_i2uff")
 max_value = 2.0
-step = 0.001
+step = 0.1
 script = ExtResource("1_yqebp")
