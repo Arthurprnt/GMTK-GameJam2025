@@ -1,4 +1,5 @@
 extends Area2D
+class_name ForceField
 
 @export var defaultState: State = State.Activated
 @export var height: float = 32
@@ -29,14 +30,7 @@ func _ready() -> void:
 	particles.emission_rect_extents = Vector2(6, height/2)
 	particles.amount = int(height * 0.35)
 
-func _draw() -> void:
-	if Input.is_action_pressed("tab"):
-		for es in energySources:
-			draw_line(to_local(global_position), to_local(es.global_position), GLOBAL.linesColor, 1, false)
-
 func _physics_process(_delta: float) -> void:
-	queue_redraw()
-	
 	if energySources != []:
 		var newState: State = otherState(defaultState)
 		for es in energySources:

@@ -162,6 +162,16 @@ func _process(_delta: float) -> void:
 	var _horizontalDirection: float = Input.get_axis("move_left", "move_right")
 	var _verticalDirection: float = Input.get_axis("move_up", "move_down")
 	
+	var currActions = []
+	for action in InputMap.get_actions():
+		if str(action) in ["move_left", "move_right", "jump"]:
+			if Input.is_action_pressed(action):
+				currActions.append(str(action))
+		else:
+			if Input.is_action_just_pressed(action):
+				currActions.append(str(action))
+	inputsArr.append(currActions)
+	
 	if canMoove:
 		if Input.is_action_just_pressed("start_record"):
 			if !recording:
@@ -212,16 +222,6 @@ func _process(_delta: float) -> void:
 			velocity.y /= 3.5
 
 func _physics_process(delta: float) -> void:
-	var currActions = []
-	for action in InputMap.get_actions():
-		if str(action) in ["move_left", "move_right", "jump"]:
-			if Input.is_action_pressed(action):
-				currActions.append(str(action))
-		else:
-			if Input.is_action_just_pressed(action):
-				currActions.append(str(action))
-	inputsArr.append(currActions)
-	
 	if recording && canTrace:
 		canTrace = false
 		var newTrace = playerTraceScene.instantiate()
