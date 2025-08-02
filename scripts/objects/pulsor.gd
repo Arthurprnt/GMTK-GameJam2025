@@ -43,6 +43,9 @@ func _draw() -> void:
 		for es in reversingSources:
 			draw_line(to_local(global_position), to_local(es.global_position), Color("#f58122"), 1, false)
 
+func _ready() -> void:
+	currentState = defaultState
+
 func _process(_delta: float) -> void:
 	if !raycast.is_colliding():
 		raycast.target_position.y -= 4.5
