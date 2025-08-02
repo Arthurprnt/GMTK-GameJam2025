@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://cm23ckp255afj"]
+[gd_scene load_steps=10 format=4 uid="uid://cm23ckp255afj"]
 
 [ext_resource type="Texture2D" uid="uid://bervjb804eiwj" path="res://assets/sprites/tile.png" id="1_ksju7"]
 [ext_resource type="Script" uid="uid://623858nrew31" path="res://scripts/levels/level.gd" id="1_sk5k4"]
 [ext_resource type="PackedScene" uid="uid://u1r2u6eqmxdw" path="res://scenes/objects/player.tscn" id="2_6iamk"]
 [ext_resource type="PackedScene" uid="uid://rqwsubkt2nyi" path="res://scenes/objects/level_orb.tscn" id="5_6761a"]
+[ext_resource type="PackedScene" uid="uid://r315ye4tioji" path="res://scenes/objects/cctv.tscn" id="6_sk5k4"]
 
 [sub_resource type="Gradient" id="Gradient_at5dv"]
 offsets = PackedFloat32Array(0.524096)
@@ -38,3 +39,6 @@ tile_set = SubResource("TileSet_nsrm0")
 
 [node name="LevelOrb" parent="." instance=ExtResource("5_6761a")]
 position = Vector2(200, -71)
+
+[node name="CCTV" parent="." instance=ExtResource("6_sk5k4")]
+position = Vector2(-530, -232)

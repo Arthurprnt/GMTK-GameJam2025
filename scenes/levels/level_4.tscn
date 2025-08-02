@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://bjnpbx20x0g4j"]
+[gd_scene load_steps=13 format=4 uid="uid://bjnpbx20x0g4j"]
 
 [ext_resource type="Texture2D" uid="uid://bervjb804eiwj" path="res://assets/sprites/tile.png" id="1_ksju7"]
 [ext_resource type="Script" uid="uid://623858nrew31" path="res://scripts/levels/level.gd" id="1_sk5k4"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cq4w7f66npi7m" path="res://scenes/objects/activable_door.tscn" id="4_6761a"]
 [ext_resource type="PackedScene" uid="uid://rqwsubkt2nyi" path="res://scenes/objects/level_orb.tscn" id="5_6761a"]
 [ext_resource type="PackedScene" uid="uid://5yhfmeciq0bv" path="res://scenes/objects/cube_dispenser.tscn" id="6_pimnq"]
+[ext_resource type="PackedScene" uid="uid://r315ye4tioji" path="res://scenes/objects/cctv.tscn" id="8_ts8eg"]
 
 [sub_resource type="Gradient" id="Gradient_at5dv"]
 offsets = PackedFloat32Array(0.524096)
@@ -55,3 +56,7 @@ tile_set = SubResource("TileSet_ibugp")
 
 [node name="LevelOrb" parent="." instance=ExtResource("5_6761a")]
 position = Vector2(-40, -87)
+
+[node name="CCTV" parent="." instance=ExtResource("8_ts8eg")]
+position = Vector2(125, -297)
+rotation = 1.5708

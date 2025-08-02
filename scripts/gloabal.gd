@@ -6,6 +6,8 @@ signal startDropping
 
 @onready var cloneScene: PackedScene = preload("res://scenes/objects/clone.tscn")
 
+var cctvSeen: Array = []
+var cctvNb: int = 5
 var clone: CharacterBody2D
 var currentLevel: int = 1
 var defaultGravity = Vector2(0, ProjectSettings.get_setting("physics/2d/default_gravity"))

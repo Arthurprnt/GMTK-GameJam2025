@@ -13,7 +13,9 @@ func closeMenu() -> void:
 
 func _ready() -> void:
 	closeButton.grab_focus()
-	if GLOBAL.currentLevel == -2:
+	if GLOBAL.currentLevel == -3:
+		instructionsLabel.text = "That's her, right ?"
+	elif GLOBAL.currentLevel == -2:
 		instructionsLabel.text = "Who is she ?"
 	elif GLOBAL.currentLevel == -1:
 		instructionsLabel.text = "What the fu-"
