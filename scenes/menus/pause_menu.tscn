@@ -13,9 +13,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 500
-theme_override_constants/margin_top = 250
+theme_override_constants/margin_top = 230
 theme_override_constants/margin_right = 500
-theme_override_constants/margin_bottom = 250
+theme_override_constants/margin_bottom = 230
 
 [node name="Panel" type="Panel" parent="MarginContainer"]
 layout_mode = 2
@@ -57,6 +57,11 @@ layout_mode = 2
 theme = ExtResource("1_fwndu")
 text = "Help"
 
+[node name="ControlsButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_fwndu")
+text = "Controls"
+
 [node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_fwndu")
@@ -65,4 +70,5 @@ text = "Quit"
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HelpButton" to="." method="_on_help_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/ControlsButton" to="." method="_on_controls_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

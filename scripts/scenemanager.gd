@@ -16,7 +16,6 @@ var currentScenes: Dictionary = {
 	"menu" = null,
 	"puzzle" = null,
 	"level" = null,
-	"3d" = null,
 	"2d" = null,
 	"control" = null
 }

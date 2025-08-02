@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+@onready var background: ColorRect = $Background
 @onready var closeButton: Button = $MarginContainer/VBoxContainer/HBoxContainer/CloseButton
 @onready var instructionsLabel: Label = $MarginContainer/VBoxContainer/InstructionsLabel
 

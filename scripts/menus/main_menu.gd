@@ -3,6 +3,7 @@ extends Control
 @onready var spawnPos: Node2D = $LevelBackgound/SpawnPos
 @onready var levelBackgound: Node2D = $LevelBackgound
 @onready var playButton: Button = $VBoxContainer/MarginContainer/VBoxContainer/PlayButton
+@onready var controlsButton: Button = $VBoxContainer/MarginContainer/VBoxContainer/ControlsButton
 @onready var quitButton: Button = $VBoxContainer/MarginContainer/VBoxContainer/QuitButton
 @onready var blackFade: ColorRect = $BlackFade
 
@@ -27,10 +28,12 @@ var usedCode: Dictionary = {
 	"help": false
 }
 
+var spaceEvent = InputMap.action_get_events("ui_accept")[2]
 var exit: bool = false
 var exitValue: float = 1.8
 
 func funcToConnect() -> void:
+	InputMap.action_add_event("ui_accept", spaceEvent)
 	GLOBAL.sceneManager.changeScene("res://scenes/levels/level_0.tscn", "level")
 	GLOBAL.currentLevel = 0
 	GLOBAL.sceneManager.changeTimerLabelsVisibilityTo(false)
@@ -50,6 +53,13 @@ func _on_play_button_pressed() -> void:
 		GLOBAL.sceneManager.changeTimerLabelsVisibilityTo(false)
 		GLOBAL.sceneManager.ost.stop()
 
+func _on_controls_button_pressed() -> void:
+	if !usedCode["help"]:
+		GLOBAL.sceneManager.changeScene("res://scenes/menus/controls_menu.tscn", "control")
+	else:
+		credit.text = "You lost it"
+
+
 func _on_quit_button_pressed() -> void:
 	if !usedCode["help"]:
 		exit = true
@@ -67,6 +77,7 @@ func _process(_delta: float) -> void:
 		if currentInputs[k] == codes[k] && !usedCode[k]:
 			usedCode[k] = true
 			if k == "konami":
+				InputMap.action_erase_event("ui_accept", spaceEvent)
 				var player: CharacterBody2D = playerScene.instantiate()
 				player.JUMP_HEIGHT *= 2
 				player.get_child(0).queue_free()
@@ -77,6 +88,7 @@ func _process(_delta: float) -> void:
 			elif k == "help":
 				GLOBAL.sceneManager.ost.stop()
 				playButton.theme = hardTheme
+				controlsButton.theme = hardTheme
 				quitButton.theme = hardTheme
 		elif currentInputs[k] != codes[k].duplicate().slice(0, currentInputs[k].size()):
 			currentInputs[k] = []
