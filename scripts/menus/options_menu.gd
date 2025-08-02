@@ -12,4 +12,4 @@ func _on_controls_button_pressed() -> void:
 	GLOBAL.sceneManager.changeScene("res://scenes/menus/controls_menu.tscn", "control")
 
 func _on_audio_button_pressed() -> void:
-	pass # Replace with function body.
+	GLOBAL.sceneManager.changeScene("res://scenes/menus/audio_menu.tscn", "control")
