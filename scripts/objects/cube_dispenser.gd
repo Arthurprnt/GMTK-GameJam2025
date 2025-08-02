@@ -9,6 +9,10 @@ extends StaticBody2D
 var cubeChild: CharacterBody2D
 var droppedSincedLastAct: bool = false
 
+func buttonPressed(btn: Bouton) -> void:
+	if btn in energySources && energySources.size() == 1:
+		droppedSincedLastAct = false
+
 func createChild() -> void:
 	if is_instance_valid(cubeChild):
 		cubeChild.queue_free()
@@ -19,6 +23,7 @@ func createChild() -> void:
 	GLOBAL.sceneManager.currentScenes["level"].add_child.call_deferred(cubeChild)
 	
 func _ready() -> void:
+	GLOBAL.buttonPressed.connect(buttonPressed)
 	if automaticalyDispense:
 		await GLOBAL.startDropping
 		createChild()
@@ -35,6 +40,8 @@ func _physics_process(_delta: float) -> void:
 	for es in energySources:
 		if es.currentState == es.State.NotPressed:
 			isActivated = false
+	if energySources == []:
+		isActivated = false
 	
 	if !isActivated:
 		droppedSincedLastAct = false

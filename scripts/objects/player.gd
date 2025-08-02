@@ -8,7 +8,6 @@ class_name Player
 @onready var sprite: Sprite2D = $Sprite
 
 @onready var rotator: Marker2D = $Rotator
-@onready var raycast: RayCast2D = $Rotator/Raycast
 @onready var releasePoint: Node2D = $Rotator/ReleasePoint
 
 @onready var coyoteJumpTimer: Timer = $CoyoteJumpTimer
@@ -58,6 +57,7 @@ var prevState: State = State.Idle
 # ARRAY
 var colors = [Color("#f58122"), Color("#55b33b"), Color("#a35dd9")]
 var inputsArr: Array = []
+var objectsInZone: Array = []
 
 # BOOL
 var canMoove: bool = true
@@ -179,8 +179,15 @@ func _process(_delta: float) -> void:
 				usedRecord = true
 				GLOBAL.createClone(firstRecPos, firstRecDir, inputsArr, cloneInd)
 				cloneInd += 1
-		if Input.is_action_just_pressed("interact") && raycast.is_colliding():
-			var object: Node2D = raycast.get_collider()
+		if Input.is_action_just_pressed("interact") && objectsInZone.size() > 0:
+			# Find the closest object in detection area
+			var object: Node2D = objectsInZone[0]
+			var distToObject: float = object.global_position.distance_squared_to(global_position)
+			for i in range(1, objectsInZone.size()):
+				var tempDist: float = objectsInZone[i].global_position.distance_squared_to(global_position)
+				if tempDist < distToObject:
+					object = objectsInZone[i]
+					distToObject = tempDist
 			if object is Cube && !holdingCube:
 				holdingCube = true
 				holdedCube = object
@@ -190,6 +197,7 @@ func _process(_delta: float) -> void:
 			elif object is Bouton:
 				object.pressedAudio.play()
 				object.currentState = object.State.Pressed
+				GLOBAL.buttonPressed.emit(object)
 				object.pressedTimer.start()
 		elif (Input.is_action_just_pressed("interact") && holdingCube) || !is_instance_valid(holdedCube):
 			holdingCube = false
@@ -284,3 +292,11 @@ func _physics_process(delta: float) -> void:
 func _on_death_zone_body_entered(body: Node2D) -> void:
 	if body is Cube:
 		kill()
+
+func _on_interact_zone_body_entered(body: Node2D) -> void:
+	if body is Cube || body is Bouton:
+		objectsInZone.append(body)
+
+func _on_interact_zone_body_exited(body: Node2D) -> void:
+	if body is Cube || body is Bouton:
+		objectsInZone.pop_at(objectsInZone.find(body))

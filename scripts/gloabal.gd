@@ -1,5 +1,6 @@
 extends Node
 
+signal buttonPressed(button)
 signal endLevel
 signal killTrace
 signal startDropping
@@ -14,7 +15,7 @@ var defaultGravity = Vector2(0, ProjectSettings.get_setting("physics/2d/default_
 var levelsUnlocked: Array = [1]
 var linesColor: Color = Color("#25acf5")
 var nbCloneAvailable: int = 1
-var nbLevel: int = 9
+var nbLevel: int = 15
 var player: CharacterBody2D
 var sceneManager: Node
 var showTimers: bool = true

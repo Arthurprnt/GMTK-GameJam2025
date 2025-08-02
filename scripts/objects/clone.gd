@@ -59,6 +59,7 @@ var currentStep: Step = Step.Spawning
 # ARRAY
 var inputsArraySave: Array = []
 var inputsArray: Array = []
+var objectsInZone: Array = []
 
 # BOOL
 var canMoove: bool = true
@@ -173,7 +174,7 @@ func movePlayer(delta: float, maxSpeed: float, actionsArr: Array) -> Vector2:
 func _ready() -> void:
 	GLOBAL.clone = self
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	match currentStep:
 		Step.Play:
 			if inputsArray != []:
@@ -190,8 +191,15 @@ func _physics_process(delta: float) -> void:
 					lastNonNullDir = horizontalDirection
 				lastVelocity = velocity
 				
-				if isActionEmulated("interact", actions) && raycast.is_colliding():
-					var object: Node2D = raycast.get_collider()
+				if isActionEmulated("interact", actions) && objectsInZone.size() > 0:
+					# Find the closest object in detection area
+					var object: Node2D = objectsInZone[0]
+					var distToObject: float = object.global_position.distance_squared_to(global_position)
+					for i in range(1, objectsInZone.size()):
+						var tempDist: float = objectsInZone[i].global_position.distance_squared_to(global_position)
+						if tempDist < distToObject:
+							object = objectsInZone[i]
+							distToObject = tempDist
 					if object is Cube && !holdingCube:
 						holdingCube = true
 						holdedCube = object
@@ -201,6 +209,7 @@ func _physics_process(delta: float) -> void:
 					elif object is Bouton:
 						object.pressedAudio.play()
 						object.currentState = object.State.Pressed
+						GLOBAL.buttonPressed.emit(object)
 						object.pressedTimer.start()
 				elif (isActionEmulated("interact", actions) && holdingCube) || !is_instance_valid(holdedCube):
 					holdingCube = false
@@ -281,3 +290,11 @@ func _physics_process(delta: float) -> void:
 func _on_death_zone_body_entered(body: Node2D) -> void:
 	if body is Cube:
 		kill()
+
+func _on_interact_zone_body_entered(body: Node2D) -> void:
+	if body is Cube || body is Bouton:
+		objectsInZone.append(body)
+
+func _on_interact_zone_body_exited(body: Node2D) -> void:
+	if body is Cube || body is Bouton:
+		objectsInZone.pop_at(objectsInZone.find(body))

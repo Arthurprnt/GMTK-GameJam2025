@@ -23,7 +23,9 @@ func otherState(state: State) -> State:
 
 func _ready() -> void:
 	sprite.scale.y = height/32
-	hitbox.shape.size = Vector2(3, height)
+	var tempHixbox = hitbox.shape.duplicate()
+	tempHixbox.size = Vector2(3, height)
+	hitbox.shape = tempHixbox
 	particles.emission_rect_extents = Vector2(6, height/2)
 	particles.amount = int(height * 0.35)
 
@@ -32,7 +34,7 @@ func _draw() -> void:
 		for es in energySources:
 			draw_line(to_local(global_position), to_local(es.global_position), GLOBAL.linesColor, 1, false)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	queue_redraw()
 	
 	if energySources != []:

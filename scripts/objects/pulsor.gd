@@ -45,6 +45,7 @@ func _draw() -> void:
 
 func _ready() -> void:
 	currentState = defaultState
+	pulsorCoeff = defaultDir
 
 func _process(_delta: float) -> void:
 	if !raycast.is_colliding():
