@@ -105,10 +105,12 @@ color_ramp = SubResource("Gradient_dllak")
 stream = ExtResource("3_dllak")
 volume_db = -7.0
 pitch_scale = 0.8
+bus = &"Sounds"
 
 [node name="SpawningSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("4_fyu1r")
 volume_db = 4.0
 pitch_scale = 1.3
+bus = &"Sounds"
 
 [connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]

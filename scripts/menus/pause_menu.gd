@@ -29,9 +29,9 @@ func _on_help_button_pressed() -> void:
 	queue_free()
 	GLOBAL.sceneManager.changeScene("res://scenes/menus/help_menu.tscn", "menu")
 
-func _on_controls_button_pressed() -> void:
+func _on_options_button_pressed() -> void:
 	queue_free()
-	GLOBAL.sceneManager.changeScene("res://scenes/menus/controls_echap_menu.tscn", "menu")
+	GLOBAL.sceneManager.changeScene("res://scenes/menus/option_echap_menu.tscn", "menu")
 
 func _on_quit_button_pressed() -> void:
 	closeMenu()

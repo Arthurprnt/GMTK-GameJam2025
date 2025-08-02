@@ -23,8 +23,10 @@ stream = ExtResource("3_nmhxf")
 volume_db = 10.0
 pitch_scale = 1.2
 attenuation = 1.8025
+bus = &"Sounds"
 
 [node name="ClosingAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_yrbtm")
 volume_db = 13.0
 pitch_scale = 0.8
+bus = &"Sounds"

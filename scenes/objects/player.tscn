@@ -106,5 +106,6 @@ color_ramp = SubResource("Gradient_h5uus")
 stream = ExtResource("3_h5uus")
 volume_db = -7.0
 pitch_scale = 0.8
+bus = &"Sounds"
 
 [connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]

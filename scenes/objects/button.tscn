@@ -26,5 +26,6 @@ one_shot = true
 stream = ExtResource("3_e5cij")
 volume_db = 7.0
 pitch_scale = 0.95
+bus = &"Sounds"
 
 [connection signal="timeout" from="PressedTimer" to="." method="_on_pressed_timer_timeout"]

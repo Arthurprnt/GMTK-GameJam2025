@@ -57,10 +57,10 @@ layout_mode = 2
 theme = ExtResource("1_fwndu")
 text = "Help"
 
-[node name="ControlsButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="OptionsButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_fwndu")
-text = "Controls"
+text = "Options"
 
 [node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -70,5 +70,5 @@ text = "Quit"
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HelpButton" to="." method="_on_help_button_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/ControlsButton" to="." method="_on_controls_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
