@@ -62,6 +62,7 @@ func _on_options_button_pressed() -> void:
 
 func _on_quit_button_pressed() -> void:
 	if !usedCode["help"]:
+		blackFade.visible = true
 		exit = true
 	else:
 		credit.text = "There are no ways out"

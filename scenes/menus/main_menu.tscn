@@ -132,6 +132,7 @@ text = "Music by Luka"
 horizontal_alignment = 1
 
 [node name="BlackFade" type="ColorRect" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
