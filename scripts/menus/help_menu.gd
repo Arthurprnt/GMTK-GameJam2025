@@ -26,7 +26,7 @@ func _ready() -> void:
 	elif GLOBAL.currentLevel == 2:
 		instructionsLabel.text = "Plates can power devices.\nYou can press TAB to check the links between objects."
 	elif GLOBAL.currentLevel <= 4:
-		instructionsLabel.text = "Buttons can also power devices.\nYou can interact with it by pressing E while facing it.\nYou can hold a cube by pressing E while facing it.\nPress E again to place it on the floor.\nCubes can activate plates."
+		instructionsLabel.text = "Buttons can also power devices.\nYou can interact with it by pressing E while facing it.\nYou can hold a cube by pressing E while facing it.\nPress E again to place it on the floor.\nCubes can activate plates.\nInteracting with cube or a button make no differences for your clone"
 	elif GLOBAL.currentLevel == 5:
 		instructionsLabel.text = "Force fields will destroy cubes touching it.\nYour clones will also make the interactions you made."
 	elif GLOBAL.currentLevel == 6:
