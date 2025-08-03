@@ -9,6 +9,8 @@
 size = Vector2(16, 48)
 
 [node name="ActivableDoor" type="StaticBody2D" node_paths=PackedStringArray("energySources")]
+collision_layer = 9
+collision_mask = 9
 script = ExtResource("1_0tu70")
 energySources = [null]
 

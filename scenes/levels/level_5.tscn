@@ -55,7 +55,7 @@ position = Vector2(-98, -22)
 
 [node name="Button2" parent="." instance=ExtResource("5_ugcn1")]
 position = Vector2(34, -22)
-activeTime = 1.75
+activeTime = 0.75
 
 [node name="PressurePlate" parent="." instance=ExtResource("3_x42e6")]
 position = Vector2(180, -16)

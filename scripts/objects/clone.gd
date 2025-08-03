@@ -288,7 +288,7 @@ func _process(delta: float) -> void:
 				queue_free()
 
 func _on_death_zone_body_entered(body: Node2D) -> void:
-	if body is Cube:
+	if body is Cube || body is ActivableDoor:
 		kill()
 
 func _on_interact_zone_body_entered(body: Node2D) -> void:

@@ -33,6 +33,7 @@ var exit: bool = false
 var exitValue: float = 1.8
 
 func funcToConnect() -> void:
+	GLOBAL.sceneManager.ost.stop()
 	InputMap.action_add_event("ui_accept", spaceEvent)
 	GLOBAL.sceneManager.changeScene("res://scenes/levels/level_0.tscn", "level")
 	GLOBAL.currentLevel = 0

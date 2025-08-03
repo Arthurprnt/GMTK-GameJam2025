@@ -290,7 +290,8 @@ func _physics_process(delta: float) -> void:
 #===================================================================================================
 
 func _on_death_zone_body_entered(body: Node2D) -> void:
-	if body is Cube:
+	print(body)
+	if body is Cube || body is ActivableDoor:
 		kill()
 
 func _on_interact_zone_body_entered(body: Node2D) -> void:

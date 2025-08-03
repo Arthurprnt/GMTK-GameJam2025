@@ -46,7 +46,7 @@ func _process(_delta: float) -> void:
 		raycast.target_position.y -= 4.5
 		particles.emission_rect_extents = Vector2(18, raycast.target_position.y/2)
 		particles.position = Vector2(0, (raycast.target_position.y/2)-8)
-		particles.amount = int(abs(raycast.target_position.y) * 1.5)
+		particles.amount = int(abs(raycast.target_position.y) * 1.2)
 		areaHitbox.shape.size = Vector2(32, abs(raycast.target_position.y))
 		areaHitbox.position = Vector2(0, (raycast.target_position.y/2)-8)
 
