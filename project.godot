@@ -10,12 +10,13 @@ config_version=5
 
 [application]
 
-config/name="TheLoop"
+config/name="LOOP YOURSELF"
 run/main_scene="uid://cc2osn0oeeob1"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(0.65098, 0.603922, 0.611765, 1)
 boot_splash/image="uid://ct7sh7rv7jtcl"
 config/icon="res://icon.svg"
+config/windows_native_icon="res://assets/icon/icon.ico"
 
 [autoload]
 
