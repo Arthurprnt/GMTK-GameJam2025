@@ -99,3 +99,10 @@ func _physics_process(delta: float) -> void:
 		blackFade.modulate = Color(255, 255, 255, move_toward(blackFade.modulate.a, exitValue, 5*delta))
 		if blackFade.modulate.a >= exitValue-0.01:
 			get_tree().quit()
+
+func _on_reset_timer_button_pressed() -> void:
+	GLOBAL.timeInCurrentLevel = 0
+	GLOBAL.totalTimeInLevels = 0
+	credit.text = "All timers have been reset"
+	await get_tree().create_timer(3).timeout
+	credit.text = "Music by Luka"

@@ -25,6 +25,7 @@ func _on_home_button_pressed() -> void:
 	GLOBAL.sceneManager.changeScene("res://scenes/menus/main_menu.tscn", "control")
 
 func _on_replay_button_pressed() -> void:
+	GLOBAL.timeInCurrentLevel = 0
 	GLOBAL.sceneManager.changeScene("res://scenes/levels/level_" + str(GLOBAL.currentLevel) + ".tscn", "level")
 
 func _on_next_button_pressed() -> void:
