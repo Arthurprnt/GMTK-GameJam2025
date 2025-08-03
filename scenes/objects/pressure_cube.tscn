@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://bexvsrbflyfnk" path="res://assets/audios/landing.wav" id="3_avxit"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ltpec"]
-size = Vector2(16, 16)
+size = Vector2(16, 15.9)
 
 [sub_resource type="Curve" id="Curve_6u7g0"]
 _data = [Vector2(0, 0.489017), 0.0, 0.0, 0, 0, Vector2(0.50303, 0.812139), 0.0, 0.0, 0, 0, Vector2(0.912121, 0), 0.0, 0.0, 0, 0]
@@ -24,6 +24,7 @@ script = ExtResource("1_ltpec")
 texture = ExtResource("2_u25mc")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.05)
 shape = SubResource("RectangleShape2D_ltpec")
 
 [node name="LandingParticles" type="CPUParticles2D" parent="."]

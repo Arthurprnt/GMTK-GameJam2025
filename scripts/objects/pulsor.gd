@@ -21,7 +21,7 @@ var rotations: Dictionary = {
 	"-180": Vector2(0, 1),
 	"-270": Vector2(2.5, 0),
 	"90": Vector2(2.5, 0),
-	"180": Vector2(0, -1),
+	"180": Vector2(0, 1),
 	"270": Vector2(-2.5, 0)
 }
 
