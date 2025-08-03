@@ -9,6 +9,7 @@ class_name Player
 
 @onready var rotator: Marker2D = $Rotator
 @onready var releasePoint: Node2D = $Rotator/ReleasePoint
+@onready var interactZone: Area2D = $Rotator/InteractZone
 
 @onready var coyoteJumpTimer: Timer = $CoyoteJumpTimer
 @onready var jumpBufferTimer: Timer = $JumpBufferTimer
@@ -212,6 +213,7 @@ func _process(_delta: float) -> void:
 		elif (Input.is_action_just_pressed("interact") && holdingCube) || !is_instance_valid(holdedCube):
 			holdingCube = false
 			if is_instance_valid(holdedCube):
+				GLOBAL.cubeReleased.emit(interactZone, holdedCube)
 				holdedCube.currentState = holdedCube.State.NotHeld
 				holdedCube.global_position = releasePoint.global_position
 				holdedCube.helder = null

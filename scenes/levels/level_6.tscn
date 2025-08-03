@@ -50,7 +50,7 @@ energySources = [NodePath("../PressurePlate2")]
 [node name="ForceField" parent="." node_paths=PackedStringArray("energySources") instance=ExtResource("9_um320")]
 position = Vector2(35, -73)
 rotation = 1.5708
-height = 70.0
+height = 82.0
 energySources = [NodePath("../PressurePlate")]
 
 [node name="CubeDispenser" parent="." node_paths=PackedStringArray("energySources") instance=ExtResource("6_pimnq")]
@@ -59,10 +59,10 @@ automaticalyDispense = false
 energySources = [NodePath("../Button")]
 
 [node name="PressurePlate" parent="." instance=ExtResource("3_x42e6")]
-position = Vector2(17, -64)
+position = Vector2(11, -64)
 
 [node name="PressurePlate2" parent="." instance=ExtResource("3_x42e6")]
-position = Vector2(53, -64)
+position = Vector2(59, -64)
 
 [node name="Button" parent="." instance=ExtResource("5_ugcn1")]
 position = Vector2(-98, -70)

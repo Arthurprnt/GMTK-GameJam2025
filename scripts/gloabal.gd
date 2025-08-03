@@ -1,6 +1,7 @@
 extends Node
 
 signal buttonPressed(button)
+signal cubeReleased(zone, cube)
 signal endLevel
 signal killTrace
 signal startDropping

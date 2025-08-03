@@ -16,6 +16,10 @@ enum State {
 }
 var currentState: State = defaultState
 
+func checkCubeRelease(zone, cube) -> void:
+	if overlaps_area(zone):
+		cube.queue_free()
+
 func otherState(state: State) -> State:
 	if state == State.Activated:
 		return State.NotActivated
@@ -23,6 +27,7 @@ func otherState(state: State) -> State:
 		return State.Activated
 
 func _ready() -> void:
+	GLOBAL.cubeReleased.connect(checkCubeRelease)
 	sprite.scale.y = height/32
 	var tempHixbox = hitbox.shape.duplicate()
 	tempHixbox.size = Vector2(3, height)

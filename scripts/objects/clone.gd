@@ -7,6 +7,7 @@ class_name Clone
 @onready var rotator: Marker2D = $Rotator
 @onready var raycast: RayCast2D = $Rotator/Raycast
 @onready var releasePoint: Node2D = $Rotator/ReleasePoint
+@onready var interactZone: Area2D = $Rotator/InteractZone
 
 @onready var coyoteJumpTimer: Timer = $CoyoteJumpTimer
 @onready var jumpBufferTimer: Timer = $JumpBufferTimer
@@ -214,6 +215,7 @@ func _process(delta: float) -> void:
 				elif (isActionEmulated("interact", actions) && holdingCube) || !is_instance_valid(holdedCube):
 					holdingCube = false
 					if is_instance_valid(holdedCube):
+						GLOBAL.cubeReleased.emit(interactZone, holdedCube)
 						holdedCube.currentState = holdedCube.State.NotHeld
 						holdedCube.global_position = releasePoint.global_position
 						holdedCube.helder = null
